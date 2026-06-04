@@ -2196,9 +2196,13 @@ copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y</Command>
   <ItemGroup>
     <ProjectReference Include="..\..\audiopassthru\audiopassthru.vcxproj">
       <Project>{7685e345-0410-4f72-a8f7-a08d85c2e7ce}</Project>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\..\dsp\DfxDsp.vcxproj">
       <Project>{f72f101c-13c0-4638-9ffa-bf15861d6f67}</Project>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
