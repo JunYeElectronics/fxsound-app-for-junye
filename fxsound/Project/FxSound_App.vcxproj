@@ -217,7 +217,9 @@
     </Lib>
     <PostBuildEvent>
       <Command>copy $(TargetPath) ..\..\bin\$(PlatformTarget)\ /y
-copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y</Command>
+copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y
+xcopy ..\Fonts\*.otf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -270,7 +272,9 @@ copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y</Command>
     </Lib>
     <PostBuildEvent>
       <Command>copy $(TargetPath) ..\..\bin\$(PlatformTarget)\ /y
-copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y</Command>
+copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y
+xcopy ..\Fonts\*.otf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
