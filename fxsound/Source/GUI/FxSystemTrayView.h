@@ -43,7 +43,7 @@ private:
 	static constexpr int MENU_ID_OPEN = 1;
 	static constexpr int MENU_ID_POWER = 2;
 	static constexpr int MENU_ID_SETTINGS = 3;
-    static constexpr int MENU_ID_DONATE = 4;
+    static constexpr int MENU_ID_TOGGLE_THEME = 4;
 	static constexpr int MENU_ID_EXIT = 5;
 	static constexpr int PRESET_MENU_ID_START = 101;
 	static constexpr int OUTPUT_MENU_ID_START = 201;

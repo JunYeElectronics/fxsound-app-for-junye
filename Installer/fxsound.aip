@@ -9,12 +9,12 @@
     <ROW Property="AI_REQUIRED_WINDOWS_INSTALLER_VERSION" MultiBuildValue="DefaultBuild:2.0" ValueLocId="-"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
-    <ROW Property="ARPHELPLINK" Value="https://www.fxsound.com/learning-center"/>
+    <ROW Property="ARPHELPLINK" Value="https://www.jun-ye.com"/>
     <ROW Property="ARPNOMODIFY" Value="1"/>
     <ROW Property="ARPNOREPAIR" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="ARPPRODUCTICON" Value="fxsound.exe" Type="8"/>
-    <ROW Property="ARPURLINFOABOUT" Value="https://forum.fxsound.com"/>
-    <ROW Property="ARPURLUPDATEINFO" Value="https://www.fxsound.com/changelog"/>
+    <ROW Property="ARPURLINFOABOUT" Value="https://www.jun-ye.com"/>
+    <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/JunYeElectronics/fxsound-app-for-junye/releases"/>
     <ROW Property="AiFeatIcoMainFeature" Value="fxsound.exe" Type="8"/>
     <ROW Property="AiSkipExitDlg" Value="1"/>
     <ROW Property="CTRLS" Value="2"/>
@@ -296,7 +296,7 @@
     <ROW Action="DeleteUpdateTask" Type="81" Source="DfxInstall.dll" Target="_DeleteUpdateTask@4" AdditionalSeq="AI_DATA_SETTER_5"/>
     <ROW Action="InstallFxSoundDriver" Type="81" Source="DfxInstall.dll" Target="_InstallDFXDriver@4" AdditionalSeq="AI_DATA_SETTER_1"/>
     <ROW Action="LaunchFxSound" Type="226" Source="APPDIR" Target="&quot;[APPDIR]\FxSound.exe&quot; [FXSOUND_CONFIG]"/>
-    <ROW Action="OpenUrl" Type="66" Source="viewer.exe" Target="https://www.fxsound.com/blog/fxsound-is-now-completely-free" Options="1"/>
+    <ROW Action="OpenUrl" Type="66" Source="viewer.exe" Target="https://www.jun-ye.com" Options="1"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_ProgramFiles][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>

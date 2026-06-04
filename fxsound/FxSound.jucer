@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="F3FTdD" name="FxSound" projectType="guiapp" version="1.2.8.0"
-              displaySplashScreen="1" jucerFormatVersion="1" companyName="FxSound LLC"
-              companyWebsite="https://www.fxsound.com" companyCopyright="2026 FxSound&#8482;"
+              displaySplashScreen="1" jucerFormatVersion="1" companyName="Jun Ye Electronics"
+              companyWebsite="https://www.jun-ye.com" companyCopyright="2026 Jun Ye Electronics"
               defines="UNICODE" postExportShellCommandWin="type %%1%%\Project\status_icons.rc &gt;&gt; %%1%%\Project\resources.rc"
               cppLanguageStandard="17">
   <MAINGROUP id="fy4sG5" name="FxSound">
@@ -34,9 +34,9 @@
       <FILE id="q9qSeQ" name="min_window_hover_blue.svg" compile="0" resource="1"
             file="Images/min_window_hover_blue.svg"/>
       <FILE id="et8FM6" name="logo-blue.svg" compile="0" resource="1" file="Images/logo-blue.svg"/>
-      <FILE id="uo2HxO" name="donate_blue.svg" compile="0" resource="1" file="Images/donate_blue.svg"/>
-      <FILE id="ZquXUG" name="donate_hover_blue.svg" compile="0" resource="1"
-            file="Images/donate_hover_blue.svg"/>
+      <FILE id="uo2HxO" name="moon.svg" compile="0" resource="1" file="Images/moon.svg"/>
+      <FILE id="ZquXUG" name="moon_hover.svg" compile="0" resource="1"
+            file="Images/moon_hover.svg"/>
       <FILE id="i9JLzk" name="dropdown_arrow_hover_blue.svg" compile="0"
             resource="1" file="Images/dropdown_arrow_hover_blue.svg"/>
       <FILE id="greHxw" name="arrow_next_blue.svg" compile="0" resource="1"
@@ -56,9 +56,9 @@
       <FILE id="b3Im5h" name="Slider_Thumb_blue.svg" compile="0" resource="1"
             file="Images/Slider_Thumb_blue.svg"/>
       <FILE id="vRx1Bp" name="logo-black.svg" compile="0" resource="1" file="Images/logo-black.svg"/>
-      <FILE id="Pi4f5D" name="donate.svg" compile="0" resource="1" file="Images/donate.svg"/>
-      <FILE id="YOkKP8" name="donate_hover.svg" compile="0" resource="1"
-            file="Images/donate_hover.svg"/>
+      <FILE id="Pi4f5D" name="sun.svg" compile="0" resource="1" file="Images/sun.svg"/>
+      <FILE id="YOkKP8" name="sun_hover.svg" compile="0" resource="1"
+            file="Images/sun_hover.svg"/>
       <FILE id="fIP0kb" name="speaker.svg" compile="0" resource="1" file="Images/speaker.svg"/>
       <FILE id="WpX8ql" name="min_window.svg" compile="0" resource="1" file="Images/min_window.svg"/>
       <FILE id="jcmz9o" name="min_window_hover.svg" compile="0" resource="1"

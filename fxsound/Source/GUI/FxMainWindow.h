@@ -66,7 +66,7 @@ private:
     DrawableButton menu_button_;
     DrawableButton resize_button_;
     DrawableButton minimize_button_;
-    DrawableButton donate_button_;
+    DrawableButton theme_toggle_button_;
     BubbleMessageComponent help_bubble_;
 
     std::unique_ptr<Drawable> menu_image_;
@@ -75,8 +75,8 @@ private:
     std::unique_ptr<Drawable> resize_hover_image_;
     std::unique_ptr<Drawable> minimize_image_;
     std::unique_ptr<Drawable> minimize_hover_image_;
-	std::unique_ptr<Drawable> donate_image_;
-	std::unique_ptr<Drawable> donate_hover_image_;
+	std::unique_ptr<Drawable> theme_toggle_image_;
+	std::unique_ptr<Drawable> theme_toggle_hover_image_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FxMainWindow)
 };
