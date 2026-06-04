@@ -15,11 +15,11 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "CompanyName",  "FxSound LLC\0"
-      VALUE "LegalCopyright",  "2026 FxSound™\0"
-      VALUE "FileDescription",  "FxSound\0"
+      VALUE "CompanyName",  "Jun Ye Electronics\0"
+      VALUE "LegalCopyright",  "2026 Jun Ye Electronics\0"
+      VALUE "FileDescription",  "J&Y Audio\0"
       VALUE "FileVersion",  "1.2.8.0\0"
-      VALUE "ProductName",  "FxSound\0"
+      VALUE "ProductName",  "J&Y Audio\0"
       VALUE "ProductVersion",  "1.2.8.0\0"
     END
   END
