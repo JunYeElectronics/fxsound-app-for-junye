@@ -548,18 +548,18 @@ void FxTheme::drawDocumentWindowTitleBar(DocumentWindow& window, Graphics& g,
 	g.setFont(font);
 
 	auto textW = GlyphArrangement::getStringWidth(font, window.getName());
-	auto iconW = 0;
-	auto iconH = 0;
+	float iconW = 0;
+	float iconH = 0;
 
 	if (icon != nullptr)
 	{
-		iconH = static_cast<int> (font.getHeight());
+		iconH = static_cast<float> (font.getHeight());
 		iconW = icon->getWidth() * iconH / icon->getHeight() + 4;
 	}
 
-	textW = jmin(titleSpaceW, textW + iconW);
-	auto textX = drawTitleTextOnLeft ? titleSpaceX
-		: jmax(titleSpaceX, (w - textW) / 2);
+	textW = jmin((float)titleSpaceW, textW + iconW);
+	auto textX = drawTitleTextOnLeft ? (float)titleSpaceX
+		: jmax((float)titleSpaceX, (w - textW) / 2.0f);
 
 	if (textX + textW > titleSpaceX + titleSpaceW)
 		textX = titleSpaceX + titleSpaceW - textW;
