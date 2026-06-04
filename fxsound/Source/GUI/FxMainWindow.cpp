@@ -178,7 +178,7 @@ private:
 //==============================================================================
 FxMainWindow::FxMainWindow() : power_button_(L"powerButton"), menu_button_(L"menuButton", DrawableButton::ButtonStyle::ImageFitted), resize_button_(L"resizeButton", DrawableButton::ButtonStyle::ImageFitted), theme_toggle_button_(L"themeToggleButton", DrawableButton::ButtonStyle::ImageFitted), minimize_button_(L"minimizeButton", DrawableButton::ButtonStyle::ImageFitted)
 {
-	setName("FxSound");
+	setName("J&Y Audio");
 	setOpaque(false);
     enableShadow(false);
 

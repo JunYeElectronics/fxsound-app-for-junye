@@ -320,7 +320,7 @@ void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray
         
         if (audio_passthru_->init() != 0)
         {
-            String message(TRANS("Error in system audio configuration. Unable to run FxSound"));
+            String message(TRANS("Error in system audio configuration. Unable to run J&Y Audio"));
             AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, JUCEApplication::getInstance()->getApplicationName(), message, TRANS("OK"));
 
             JUCEApplication::getInstance()->systemRequestedQuit();
@@ -481,7 +481,7 @@ void FxController::hideMainWindow()
 	if (minimize_tip_)
 	{
         Thread::sleep(2000);
-		FxModel::getModel().pushMessage(TRANS("FxSound in system tray\r\nClick FxSound icon to reopen"));
+		FxModel::getModel().pushMessage(TRANS("J&Y Audio in system tray\r\nClick J&Y Audio icon to reopen"));
 		minimize_tip_ = false;
 	}
 }
@@ -1212,7 +1212,7 @@ LRESULT CALLBACK FxController::eventCallback(HWND hwnd, const UINT message, cons
 				controller->setPowerState(power_state);
 
                 String param = FxModel::getModel().getPowerState() ? TRANS(L"on") : TRANS(L"off");
-                FxModel::getModel().pushMessage(controller->FormatString(TRANS("FxSound is %s."), param));
+                FxModel::getModel().pushMessage(controller->FormatString(TRANS("J&Y Audio is %s."), param));
 			}
 			if (w_param == CMD_OPEN_CLOSE)
 			{

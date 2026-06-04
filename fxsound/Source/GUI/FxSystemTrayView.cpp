@@ -73,7 +73,7 @@ void FxSystemTrayView::setStatus(bool power, bool processing)
     String param = power ? TRANS(L"on") : TRANS(L"off");
 
     wchar_t tool_tip[1024];
-    swprintf_s(tool_tip, String(TRANS("FxSound is %s.")).toWideCharPointer(), param.toWideCharPointer());
+    swprintf_s(tool_tip, String(TRANS("J&Y Audio is %s.")).toWideCharPointer(), param.toWideCharPointer());
 	wcscat_s(tool_tip, 1024, L"\n\n");
     wcscat_s(tool_tip, 1024, String(TRANS("Output: ")).toWideCharPointer());
     auto& model = FxModel::getModel();
@@ -200,7 +200,7 @@ void FxSystemTrayView::addIcon()
     nid.guidItem = trayIconGuid_;
     nid.uCallbackMessage = WMAPP_FXTRAYICON;
     nid.hWnd = hWnd;
-    lstrcpy(nid.szTip, L"FxSound");
+    lstrcpy(nid.szTip, L"J&Y Audio");
     Shell_NotifyIcon(NIM_ADD, &nid);
 
     // NOTIFYICON_VERSION_4 is prefered
@@ -411,7 +411,7 @@ void FxSystemTrayView::showNotification()
             nid.guidItem = trayIconGuid_;
             nid.dwInfoFlags = NIIF_NOSOUND | NIIF_RESPECT_QUIET_TIME;
 
-            String title = L"FxSound";
+            String title = L"J&Y Audio";
             title.copyToUTF16(nid.szInfoTitle, sizeof(nid.szInfoTitle) - 1);
             message.copyToUTF16(nid.szInfo, sizeof(nid.szInfo) - 1);
 
