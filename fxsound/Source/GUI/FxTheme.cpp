@@ -393,9 +393,9 @@ void FxTheme::loadFont(String language)
 	}
     else if (language.startsWithIgnoreCase("zh-TW"))
     {
-        font_400_ = loadTypeface("NotoSansTC-Regular.ttf");
-        font_600_ = loadTypeface("NotoSansTC-Medium.ttf");
-        font_700_ = loadTypeface("NotoSansTC-Medium.ttf");
+        font_400_ = loadTypeface("NotoSansTC-Regular.otf");
+        font_600_ = loadTypeface("NotoSansTC-Medium.otf");
+        font_700_ = loadTypeface("NotoSansTC-Medium.otf");
     }
 	else if (language.startsWithIgnoreCase("th"))
 	{
@@ -403,29 +403,23 @@ void FxTheme::loadFont(String language)
 		font_600_ = loadTypeface("NotoSansThai-Medium.ttf");
 		font_700_ = loadTypeface("NotoSansThai-Medium.ttf");
 	}
-    else if (language.startsWithIgnoreCase("vi"))
-    {
-        font_400_ = loadTypeface("MontserratAlternates-Regular.ttf");
-        font_600_ = loadTypeface("MontserratAlternates-Medium.ttf");
-        font_700_ = loadTypeface("MontserratAlternates-Bold.ttf");
-    }
 	else if (language.startsWithIgnoreCase("ja"))
 	{
-		font_400_ = loadTypeface("NotoSansJP-Regular.ttf");
-		font_600_ = loadTypeface("NotoSansJP-Medium.ttf");
-		font_700_ = loadTypeface("NotoSansJP-Bold.ttf");
+		font_400_ = loadTypeface("NotoSansJP-Regular.otf");
+		font_600_ = loadTypeface("NotoSansJP-Medium.otf");
+		font_700_ = loadTypeface("NotoSansJP-Bold.otf");
 	}
 	else if (language.startsWithIgnoreCase("ar"))
 	{
-		font_400_ = loadTypeface("IBMPlexSansArabic-Regular.ttf");
-		font_600_ = loadTypeface("IBMPlexSansArabic-Medium.ttf");
-		font_700_ = loadTypeface("IBMPlexSansArabic-Bold.ttf");
+		font_400_ = loadTypeface("NotoSansArabic-Regular.ttf");
+		font_600_ = loadTypeface("NotoSansArabic-Medium.ttf");
+		font_700_ = loadTypeface("NotoSansArabic-Medium.ttf");
 	}
 	else if (language.startsWithIgnoreCase("fa"))
 	{
-		font_400_ = loadTypeface("IBMPlexSansArabic-Regular.ttf");
-		font_600_ = loadTypeface("IBMPlexSansArabic-Medium.ttf");
-		font_700_ = loadTypeface("IBMPlexSansArabic-Bold.ttf");
+		font_400_ = loadTypeface("NotoSansArabic-Regular.ttf");
+		font_600_ = loadTypeface("NotoSansArabic-Medium.ttf");
+		font_700_ = loadTypeface("NotoSansArabic-Medium.ttf");
 	}
     else
     {
