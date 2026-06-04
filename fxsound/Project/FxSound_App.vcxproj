@@ -219,7 +219,8 @@
       <Command>copy $(TargetPath) ..\..\bin\$(PlatformTarget)\ /y
 copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y
 xcopy ..\Fonts\*.otf ..\..\bin\$(PlatformTarget)\ /y /q
-xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q</Command>
+xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\..\Installer\Resources\Factsoft\*.fac ..\..\bin\$(PlatformTarget)\Factsoft\ /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -274,7 +275,8 @@ xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q</Command>
       <Command>copy $(TargetPath) ..\..\bin\$(PlatformTarget)\ /y
 copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y
 xcopy ..\Fonts\*.otf ..\..\bin\$(PlatformTarget)\ /y /q
-xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q</Command>
+xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\..\Installer\Resources\Factsoft\*.fac ..\..\bin\$(PlatformTarget)\Factsoft\ /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
