@@ -547,7 +547,7 @@ void FxTheme::drawDocumentWindowTitleBar(DocumentWindow& window, Graphics& g,
 	Font font(12.0f, Font::plain);
 	g.setFont(font);
 
-	auto textW = font.getStringWidth(window.getName());
+	auto textW = font.getStringWidthFloat(window.getName());
 	auto iconW = 0;
 	auto iconH = 0;
 
