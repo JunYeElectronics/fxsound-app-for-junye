@@ -277,9 +277,11 @@ void FxSystemTrayView::showContextMenu()
         controller.setAlwaysOnTop(!controller.isAlwaysOnTop());
     };
 
-    auto donateClicked = []() {
-        URL url("https://www.paypal.com/donate/?hosted_button_id=JVNQGYXCQ2GPG");
-        url.launchInDefaultBrowser();
+    auto toggleThemeClicked = []() {
+        if (FxTheme::getThemeMode() == FxThemeMode::Dark)
+            FxController::getInstance().setThemeMode(FxThemeMode::Light);
+        else
+            FxController::getInstance().setThemeMode(FxThemeMode::Dark);
     };
 
     auto exitClicked = []() {
@@ -292,7 +294,7 @@ void FxSystemTrayView::showContextMenu()
     PopupMenu::Item open(TRANS("Open"));
     PopupMenu::Item power;
     PopupMenu::Item settings(TRANS("Settings"));
-    PopupMenu::Item donate(TRANS("Donate"));
+    PopupMenu::Item toggleTheme(TRANS("Toggle Theme"));
     PopupMenu::Item exit(TRANS("Exit"));
 
     open.setID(MENU_ID_OPEN);
@@ -302,8 +304,8 @@ void FxSystemTrayView::showContextMenu()
     power.setAction(powerClicked);
     settings.setID(MENU_ID_SETTINGS);
     settings.setAction(settingsClicked);
-    donate.setID(MENU_ID_DONATE);
-    donate.setAction(donateClicked);
+    toggleTheme.setID(MENU_ID_TOGGLE_THEME);
+    toggleTheme.setAction(toggleThemeClicked);
     exit.setID(MENU_ID_EXIT);
     exit.setAction(exitClicked);
 
@@ -317,7 +319,7 @@ void FxSystemTrayView::showContextMenu()
     context_menu.addItem(settings);
     context_menu.addSubMenu(TRANS("Theme"), theme_menu);
     context_menu.addItem(TRANS("Always On Top"), true, FxController::getInstance().getMainWindow()->isAlwaysOnTop(), alwaysOnTopClicked);
-    context_menu.addItem(donate);
+    context_menu.addItem(toggleTheme);
     context_menu.addItem(exit);
 
     HWND hWnd = (HWND)getWindowHandle();

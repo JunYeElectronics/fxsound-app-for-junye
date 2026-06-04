@@ -1,15 +1,15 @@
-# FxSound
+# FxSound for J&Y Audio
 
 FxSound is a digital audio program built for Windows PC's. The background processing, built on a high-fidelity audio engine, acts as a sort of digital soundcard for your system. This means that your signals will have the clean passthrough when FxSound is active. There are active effects for shaping and boosting your sound's volume, timbre, and equalization included on top of this clean processing, allowing you to customize and enhance your sound.
 
+This is a customized build of FxSound maintained by **Jun Ye Electronics (J&Y Audio)** for use with our audio products.
+
 ## General Information
-* Website: https://www.fxsound.com
-* Installer: https://download.fxsound.com/fxsoundlatest
-* Source code: https://github.com/fxsound2/fxsound-app
-* Issue tracker: https://github.com/fxsound2/fxsound-app/issues
-* Forum: https://forum.fxsound.com
-* [Donate to FxSound](https://www.paypal.com/donate/?hosted_button_id=JVNQGYXCQ2GPG)
-  
+* Company: [Jun Ye Electronics](https://www.jun-ye.com)
+* Source code: https://github.com/JunYeElectronics/fxsound-app-for-junye
+* Issue tracker: https://github.com/JunYeElectronics/fxsound-app-for-junye/issues
+* Original project: [fxsound2/fxsound-app](https://github.com/fxsound2/fxsound-app)
+
 ## Build Instructions
 ### Prerequisites
 * Download and install the [latest version of FxSound](https://download.fxsound.com/fxsoundlatest)
@@ -21,7 +21,7 @@ FxSound is a digital audio program built for Windows PC's. The background proces
 FxSound application requires FxSound Audio Enhancer virtual audio driver. So, to run FxSound application built from source, we need to install FxSound which installs the audio driver.
 
 ### Build FxSound from Visual Studio
-* Open [fxsound/Project/FxSound.sln](https://github.com/fxsound2/fxsound-app/blob/main/fxsound/Project/FxSound.sln) in Visual Studio
+* Open [fxsound/Project/FxSound.sln](https://github.com/JunYeElectronics/fxsound-app-for-junye/blob/main/fxsound/Project/FxSound.sln) in Visual Studio
 * Build the required configuration and platform and run
 
 ### Build after exporting the project form Projucer
@@ -39,6 +39,8 @@ Due to the some limitations with Projucer, after exporting the Visual Studio sol
 We welcome anyone who wants to contribute to this project. For more details on how to contribute, follow [this contributing guideline](./CONTRIBUTING.md).
 
 ## Acknowledgements
+This project is based on [FxSound](https://github.com/fxsound2/fxsound-app) by FxSound LLC.
+
 Our special thanks to Advanced Installer for supporting us with Advanced Installer Professional license to build our installer.
 
 [![image](https://github.com/user-attachments/assets/c133fe06-619c-4c17-bce9-f1cf051c5265)](https://www.advancedinstaller.com)
@@ -48,4 +50,6 @@ This project uses the [JUCE](https://juce.com) framework, which is licensed unde
 Thanks to [Theremino](https://www.theremino.com) for the valuable contributions they do through major feature enhancements in FxSound.
 
 ## License
-[AGPL v3.0](https://github.com/fxsound2/fxsound-app/blob/main/LICENSE)
+[AGPL v3.0](https://github.com/JunYeElectronics/fxsound-app-for-junye/blob/main/LICENSE)
+
+This project is licensed under the GNU Affero General Public License v3.0. The original copyright belongs to FxSound LLC. See the [LICENSE](./LICENSE) file for full details.

@@ -176,7 +176,7 @@ private:
 };
 
 //==============================================================================
-FxMainWindow::FxMainWindow() : power_button_(L"powerButton"), menu_button_(L"menuButton", DrawableButton::ButtonStyle::ImageFitted), resize_button_(L"resizeButton", DrawableButton::ButtonStyle::ImageFitted), donate_button_(L"donateButton", DrawableButton::ButtonStyle::ImageFitted), minimize_button_(L"minimizeButton", DrawableButton::ButtonStyle::ImageFitted)
+FxMainWindow::FxMainWindow() : power_button_(L"powerButton"), menu_button_(L"menuButton", DrawableButton::ButtonStyle::ImageFitted), resize_button_(L"resizeButton", DrawableButton::ButtonStyle::ImageFitted), theme_toggle_button_(L"themeToggleButton", DrawableButton::ButtonStyle::ImageFitted), minimize_button_(L"minimizeButton", DrawableButton::ButtonStyle::ImageFitted)
 {
 	setName("FxSound");
 	setOpaque(false);
@@ -206,14 +206,16 @@ FxMainWindow::FxMainWindow() : power_button_(L"powerButton"), menu_button_(L"men
 	resize_button_.setWantsKeyboardFocus(true);
 	resize_button_.addListener(this);	
 
-	donate_button_.setMouseCursor(MouseCursor::PointingHandCursor);
-	donate_button_.setSize(BUTTON_WIDTH + 2, BUTTON_WIDTH + 6);
-	donate_button_.setHelpText(TRANS("Donate"));
-	donate_button_.setTooltip(TRANS("Donate"));
-	donate_button_.setWantsKeyboardFocus(true);
-	donate_button_.onClick = [this]() {
-		URL url("https://www.paypal.com/donate/?hosted_button_id=JVNQGYXCQ2GPG");
-		url.launchInDefaultBrowser();
+	theme_toggle_button_.setMouseCursor(MouseCursor::PointingHandCursor);
+	theme_toggle_button_.setSize(BUTTON_WIDTH + 2, BUTTON_WIDTH + 6);
+	theme_toggle_button_.setHelpText(TRANS("Toggle Theme"));
+	theme_toggle_button_.setTooltip(TRANS("Toggle Theme"));
+	theme_toggle_button_.setWantsKeyboardFocus(true);
+	theme_toggle_button_.onClick = [this]() {
+		if (FxTheme::getThemeMode() == FxThemeMode::Dark)
+			FxController::getInstance().setThemeMode(FxThemeMode::Light);
+		else
+			FxController::getInstance().setThemeMode(FxThemeMode::Dark);
 	};
 
 	minimize_button_.setMouseCursor(MouseCursor::PointingHandCursor);
@@ -231,7 +233,7 @@ FxMainWindow::FxMainWindow() : power_button_(L"powerButton"), menu_button_(L"men
 	addToolbarButton(&minimize_button_);
 	addToolbarButton(&resize_button_);
 	addToolbarButton(&power_button_);
-	addToolbarButton(&donate_button_);
+	addToolbarButton(&theme_toggle_button_);
 }
 
 FxMainWindow::~FxMainWindow()
@@ -323,9 +325,9 @@ void FxMainWindow::setLookAndFeel()
 	menu_hover_image_ = Drawable::createFromImageData(FXIMAGE(MenuButtonHover), FXIMAGESIZE(MenuButtonHover));
 	menu_button_.setImages(menu_image_.get(), menu_hover_image_.get());
 
-	donate_image_ = Drawable::createFromImageData(FXIMAGE(DonateButton), FXIMAGESIZE(DonateButton));
-	donate_hover_image_ = Drawable::createFromImageData(FXIMAGE(DonateButtonHover), FXIMAGESIZE(DonateButtonHover));
-	donate_button_.setImages(donate_image_.get(), donate_hover_image_.get());
+	theme_toggle_image_ = Drawable::createFromImageData(FXIMAGE(ThemeToggleButton), FXIMAGESIZE(ThemeToggleButton));
+	theme_toggle_hover_image_ = Drawable::createFromImageData(FXIMAGE(ThemeToggleButtonHover), FXIMAGESIZE(ThemeToggleButtonHover));
+	theme_toggle_button_.setImages(theme_toggle_image_.get(), theme_toggle_hover_image_.get());
 
 	minimize_image_ = Drawable::createFromImageData(FXIMAGE(MinimizeWindowButton), FXIMAGESIZE(MinimizeWindowButton));
 	minimize_hover_image_ = Drawable::createFromImageData(FXIMAGE(MinimizeWindowButtonHover), FXIMAGESIZE(MinimizeWindowButtonHover));
@@ -450,7 +452,7 @@ void FxMainWindow::showMenu()
 	};
 
 	auto downloadClicked = []() {
-		URL url("https://www.fxsound.com/presets");
+		URL url("https://www.jun-ye.com");
 		url.launchInDefaultBrowser();
 	};
 
@@ -459,9 +461,11 @@ void FxMainWindow::showMenu()
 		child_process.start("updater.exe /checknow");
 	};
 
-	auto donateClicked = []() {
-		URL url("https://www.paypal.com/donate/?hosted_button_id=JVNQGYXCQ2GPG");
-		url.launchInDefaultBrowser();
+	auto toggleThemeClicked = [this]() {
+		if (FxTheme::getThemeMode() == FxThemeMode::Dark)
+			FxController::getInstance().setThemeMode(FxThemeMode::Light);
+		else
+			FxController::getInstance().setThemeMode(FxThemeMode::Dark);
 	};
 
 	auto darkModeClicked = [this]() {
@@ -522,7 +526,7 @@ void FxMainWindow::showMenu()
 	popup_menu.addSubMenu(TRANS("Theme"), theme_menu);
 	popup_menu.addItem(TRANS("Always On Top"), true, isAlwaysOnTop(), alwaysOnTopClicked);
 	popup_menu.addSeparator();
-	popup_menu.addItem(TRANS("Donate"), donateClicked);
+	popup_menu.addItem(TRANS("Toggle Theme"), toggleThemeClicked);
 
 	popup_menu.showAt(&menu_button_);
 }

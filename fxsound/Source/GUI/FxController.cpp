@@ -61,7 +61,7 @@ private:
 			addAndMakeVisible(error_message_);
 
 			error_link_.setButtonText(TRANS("troubleshooting steps here."));
-			error_link_.setURL(URL(L"https://www.fxsound.com/learning-center/installation-troubleshooting"));
+			error_link_.setURL(URL(L"https://www.jun-ye.com"));
 			error_link_.setJustificationType(Justification::topLeft);
 			addAndMakeVisible(error_link_);
 
@@ -70,7 +70,7 @@ private:
 			addAndMakeVisible(contact_message_);
 
 			contact_link_.setButtonText(TRANS("Contact us"));
-			contact_link_.setURL(URL(L"https://www.fxsound.com/support"));
+			contact_link_.setURL(URL(L"https://www.jun-ye.com"));
 			contact_link_.setJustificationType(Justification::topLeft);
 			addAndMakeVisible(contact_link_);
 
@@ -360,7 +360,7 @@ void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray
         {
 			RegDeleteTree(HKEY_CURRENT_USER, L"Software\\DFX");
 
-            FxModel::getModel().pushMessage(" ", { TRANS("Click here to see what's new on this version!"), "https://www.fxsound.com/changelog" });			
+            FxModel::getModel().pushMessage(" ", { TRANS("Click here to see what's new on this version!"), "https://github.com/JunYeElectronics/fxsound-app-for-junye/releases" });			
             settings_.setString("version", app_version);
 			if (!prev_version.startsWith("1.1.2") && app_version.startsWith("1.1.2"))
 			{

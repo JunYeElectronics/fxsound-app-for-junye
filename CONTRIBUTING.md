@@ -2,14 +2,14 @@
 We welcome anyone who wants to contribute to this project. We thank you for all your contributions.
 
 ### Contribute as a Community
-- You can answer questions in [the issue tracker](https://github.com/fxsound2/fxsound-app/issues), or in [the fxsound forum](https://forum.fxsound.com/).
+- You can answer questions in [the issue tracker](https://github.com/JunYeElectronics/fxsound-app-for-junye/issues), or in [the fxsound forum](https://forum.fxsound.com/).
 
 ### Contribute as a Developer
-- Look for [issues labelled ’Good First Issue’](https://github.com/fxsound2/fxsound-app/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22). These issues are for people who want to contribute, but try to work on a small feature first.
-- Look for [issues labelled ‘Help Wanted’](https://github.com/fxsound2/fxsound-app/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22). These issues are relatively easy to solve.
-- Look for [issues labelled ‘Bugs’](https://github.com/fxsound2/fxsound-app/issues?q=is%3Aopen+is%3Aissue+label%3Abug+) if you are looking to have an immediate impact.
-- Look for [issues labeled 'Enhancement'](https://github.com/fxsound2/fxsound-app/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement). Solving these issues need a strong discussion, and it has the highest impact.
-- Issues are tracked in [GitHub issues](https://github.com/fxsound2/fxsound-app/issues). To make contributions to the project create a branch from an issue and submit a Pull Request with your code changes.
+- Look for [issues labelled ’Good First Issue’](https://github.com/JunYeElectronics/fxsound-app-for-junye/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22). These issues are for people who want to contribute, but try to work on a small feature first.
+- Look for [issues labelled ‘Help Wanted’](https://github.com/JunYeElectronics/fxsound-app-for-junye/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22). These issues are relatively easy to solve.
+- Look for [issues labelled ‘Bugs’](https://github.com/JunYeElectronics/fxsound-app-for-junye/issues?q=is%3Aopen+is%3Aissue+label%3Abug+) if you are looking to have an immediate impact.
+- Look for [issues labeled 'Enhancement'](https://github.com/JunYeElectronics/fxsound-app-for-junye/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement). Solving these issues need a strong discussion, and it has the highest impact.
+- Issues are tracked in [GitHub issues](https://github.com/JunYeElectronics/fxsound-app-for-junye/issues). To make contributions to the project create a branch from an issue and submit a Pull Request with your code changes.
 
 ## Branch Naming Convention
 
