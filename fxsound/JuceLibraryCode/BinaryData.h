@@ -56,11 +56,11 @@ namespace BinaryData
     extern const char*   logoblue_svg;
     const int            logoblue_svgSize = 7257;
 
-    extern const char*   donate_blue_svg;
-    const int            donate_blue_svgSize = 431;
+    extern const char*   moon_svg;
+    const int            moon_svgSize = 431;
 
-    extern const char*   donate_hover_blue_svg;
-    const int            donate_hover_blue_svgSize = 431;
+    extern const char*   moon_hover_svg;
+    const int            moon_hover_svgSize = 431;
 
     extern const char*   dropdown_arrow_hover_blue_svg;
     const int            dropdown_arrow_hover_blue_svgSize = 685;
@@ -92,11 +92,11 @@ namespace BinaryData
     extern const char*   logoblack_svg;
     const int            logoblack_svgSize = 7254;
 
-    extern const char*   donate_svg;
-    const int            donate_svgSize = 431;
+    extern const char*   sun_svg;
+    const int            sun_svgSize = 431;
 
-    extern const char*   donate_hover_svg;
-    const int            donate_hover_svgSize = 431;
+    extern const char*   sun_hover_svg;
+    const int            sun_hover_svgSize = 431;
 
     extern const char*   speaker_svg;
     const int            speaker_svgSize = 874;

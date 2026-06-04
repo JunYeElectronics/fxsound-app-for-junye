@@ -3115,7 +3115,7 @@ static const unsigned char temp_binary_data_15[] =
 
 const char* logoblue_svg = (const char*) temp_binary_data_15;
 
-//================== donate_blue.svg ==================
+//================== moon.svg ==================
 static const unsigned char temp_binary_data_16[] =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 "<svg width=\"30px\" height=\"31px\" viewBox=\"0 0 30 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\r\n"
@@ -3128,9 +3128,9 @@ static const unsigned char temp_binary_data_16[] =
 "  </g>\r\n"
 "</svg>";
 
-const char* donate_blue_svg = (const char*) temp_binary_data_16;
+const char* moon_svg = (const char*) temp_binary_data_16;
 
-//================== donate_hover_blue.svg ==================
+//================== moon_hover.svg ==================
 static const unsigned char temp_binary_data_17[] =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 "<svg width=\"30px\" height=\"31px\" viewBox=\"0 0 30 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\r\n"
@@ -3143,7 +3143,7 @@ static const unsigned char temp_binary_data_17[] =
 "  </g>\r\n"
 "</svg>";
 
-const char* donate_hover_blue_svg = (const char*) temp_binary_data_17;
+const char* moon_hover_svg = (const char*) temp_binary_data_17;
 
 //================== dropdown_arrow_hover_blue.svg ==================
 static const unsigned char temp_binary_data_18[] =
@@ -3387,7 +3387,7 @@ static const unsigned char temp_binary_data_27[] =
 
 const char* logoblack_svg = (const char*) temp_binary_data_27;
 
-//================== donate.svg ==================
+//================== sun.svg ==================
 static const unsigned char temp_binary_data_28[] =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 "<svg width=\"30px\" height=\"31px\" viewBox=\"0 0 30 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\r\n"
@@ -3400,9 +3400,9 @@ static const unsigned char temp_binary_data_28[] =
 "  </g>\r\n"
 "</svg>";
 
-const char* donate_svg = (const char*) temp_binary_data_28;
+const char* sun_svg = (const char*) temp_binary_data_28;
 
-//================== donate_hover.svg ==================
+//================== sun_hover.svg ==================
 static const unsigned char temp_binary_data_29[] =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 "<svg width=\"30px\" height=\"31px\" viewBox=\"0 0 30 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\r\n"
@@ -3415,7 +3415,7 @@ static const unsigned char temp_binary_data_29[] =
 "  </g>\r\n"
 "</svg>";
 
-const char* donate_hover_svg = (const char*) temp_binary_data_29;
+const char* sun_hover_svg = (const char*) temp_binary_data_29;
 
 //================== speaker.svg ==================
 static const unsigned char temp_binary_data_30[] =
@@ -9052,8 +9052,8 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
         case 0xd1cffae2:  numBytes = 542; return min_window_black_svg;
         case 0xcb8b1ea4:  numBytes = 599; return min_window_hover_blue_svg;
         case 0x440b4baa:  numBytes = 7257; return logoblue_svg;
-        case 0x303394cf:  numBytes = 431; return donate_blue_svg;
-        case 0x41318472:  numBytes = 431; return donate_hover_blue_svg;
+        case 0x303394cf:  numBytes = 431; return moon_svg;
+        case 0x41318472:  numBytes = 431; return moon_hover_svg;
         case 0x20396f06:  numBytes = 685; return dropdown_arrow_hover_blue_svg;
         case 0xb0b0ab15:  numBytes = 507; return arrow_next_blue_svg;
         case 0xcd55bbd5:  numBytes = 506; return arrow_prev_blue_svg;
@@ -9064,8 +9064,8 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
         case 0x7a293725:  numBytes = 2218; return power_on_blue_svg;
         case 0xe7eda466:  numBytes = 4894; return Slider_Thumb_blue_svg;
         case 0x1897d0d9:  numBytes = 7254; return logoblack_svg;
-        case 0x30086894:  numBytes = 431; return donate_svg;
-        case 0xbd65ff11:  numBytes = 431; return donate_hover_svg;
+        case 0x30086894:  numBytes = 431; return sun_svg;
+        case 0xbd65ff11:  numBytes = 431; return sun_hover_svg;
         case 0x6d373624:  numBytes = 874; return speaker_svg;
         case 0xfd6939a2:  numBytes = 542; return min_window_svg;
         case 0xddbd4d9f:  numBytes = 599; return min_window_hover_svg;
@@ -9146,8 +9146,8 @@ const char* namedResourceList[] =
     "min_window_black_svg",
     "min_window_hover_blue_svg",
     "logoblue_svg",
-    "donate_blue_svg",
-    "donate_hover_blue_svg",
+    "moon_svg",
+    "moon_hover_svg",
     "dropdown_arrow_hover_blue_svg",
     "arrow_next_blue_svg",
     "arrow_prev_blue_svg",
@@ -9158,8 +9158,8 @@ const char* namedResourceList[] =
     "power_on_blue_svg",
     "Slider_Thumb_blue_svg",
     "logoblack_svg",
-    "donate_svg",
-    "donate_hover_svg",
+    "sun_svg",
+    "sun_hover_svg",
     "speaker_svg",
     "min_window_svg",
     "min_window_hover_svg",
@@ -9235,8 +9235,8 @@ const char* originalFilenames[] =
     "min_window_black.svg",
     "min_window_hover_blue.svg",
     "logo-blue.svg",
-    "donate_blue.svg",
-    "donate_hover_blue.svg",
+    "moon.svg",
+    "moon_hover.svg",
     "dropdown_arrow_hover_blue.svg",
     "arrow_next_blue.svg",
     "arrow_prev_blue.svg",
@@ -9247,8 +9247,8 @@ const char* originalFilenames[] =
     "power_on_blue.svg",
     "Slider_Thumb_blue.svg",
     "logo-black.svg",
-    "donate.svg",
-    "donate_hover.svg",
+    "sun.svg",
+    "sun_hover.svg",
     "speaker.svg",
     "min_window.svg",
     "min_window_hover.svg",
