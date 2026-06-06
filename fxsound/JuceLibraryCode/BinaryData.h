@@ -18,253 +18,250 @@ namespace BinaryData
     const int            GilroySemibold_ttfSize = 83948;
 
     extern const char*   arrow_down_svg;
-    const int            arrow_down_svgSize = 259;
+    const int            arrow_down_svgSize = 250;
 
     extern const char*   arrow_down_blue_svg;
-    const int            arrow_down_blue_svgSize = 259;
+    const int            arrow_down_blue_svgSize = 250;
 
     extern const char*   arrow_up_svg;
-    const int            arrow_up_svgSize = 261;
+    const int            arrow_up_svgSize = 251;
 
     extern const char*   arrow_up_blue_svg;
-    const int            arrow_up_blue_svgSize = 259;
+    const int            arrow_up_blue_svgSize = 250;
 
     extern const char*   logored_svg;
-    const int            logored_svgSize = 7257;
+    const int            logored_svgSize = 14015;
 
     extern const char*   logowhite_svg;
-    const int            logowhite_svgSize = 7254;
+    const int            logowhite_svgSize = 14015;
 
     extern const char*   maximize_black_svg;
-    const int            maximize_black_svgSize = 826;
+    const int            maximize_black_svgSize = 816;
 
     extern const char*   maximize_hover_blue_svg;
-    const int            maximize_hover_blue_svgSize = 838;
+    const int            maximize_hover_blue_svgSize = 828;
 
     extern const char*   menu_black_svg;
-    const int            menu_black_svgSize = 552;
+    const int            menu_black_svgSize = 542;
 
     extern const char*   menu_hover_blue_svg;
-    const int            menu_hover_blue_svgSize = 669;
+    const int            menu_hover_blue_svgSize = 659;
 
     extern const char*   min_window_black_svg;
-    const int            min_window_black_svgSize = 542;
+    const int            min_window_black_svgSize = 532;
 
     extern const char*   min_window_hover_blue_svg;
-    const int            min_window_hover_blue_svgSize = 599;
+    const int            min_window_hover_blue_svgSize = 589;
 
     extern const char*   logoblue_svg;
-    const int            logoblue_svgSize = 7257;
+    const int            logoblue_svgSize = 14015;
 
     extern const char*   moon_svg;
-    const int            moon_svgSize = 431;
+    const int            moon_svgSize = 3630;
 
     extern const char*   moon_hover_svg;
-    const int            moon_hover_svgSize = 431;
+    const int            moon_hover_svgSize = 3630;
 
     extern const char*   dropdown_arrow_hover_blue_svg;
-    const int            dropdown_arrow_hover_blue_svgSize = 685;
+    const int            dropdown_arrow_hover_blue_svgSize = 675;
 
     extern const char*   arrow_next_blue_svg;
-    const int            arrow_next_blue_svgSize = 507;
+    const int            arrow_next_blue_svgSize = 500;
 
     extern const char*   arrow_prev_blue_svg;
-    const int            arrow_prev_blue_svgSize = 506;
+    const int            arrow_prev_blue_svgSize = 499;
 
     extern const char*   FxSound_Black_Bars_svg;
-    const int            FxSound_Black_Bars_svgSize = 589;
+    const int            FxSound_Black_Bars_svgSize = 9155;
 
     extern const char*   minimize_black_svg;
-    const int            minimize_black_svgSize = 951;
+    const int            minimize_black_svgSize = 940;
 
     extern const char*   minimize_hover_blue_svg;
-    const int            minimize_hover_blue_svgSize = 963;
+    const int            minimize_hover_blue_svgSize = 952;
 
     extern const char*   power_off_black_svg;
-    const int            power_off_black_svgSize = 2218;
+    const int            power_off_black_svgSize = 2199;
 
     extern const char*   power_on_blue_svg;
-    const int            power_on_blue_svgSize = 2218;
+    const int            power_on_blue_svgSize = 2199;
 
     extern const char*   Slider_Thumb_blue_svg;
-    const int            Slider_Thumb_blue_svgSize = 4894;
+    const int            Slider_Thumb_blue_svgSize = 4839;
 
     extern const char*   logoblack_svg;
-    const int            logoblack_svgSize = 7254;
+    const int            logoblack_svgSize = 14759;
 
     extern const char*   sun_svg;
-    const int            sun_svgSize = 431;
+    const int            sun_svgSize = 697;
 
     extern const char*   sun_hover_svg;
-    const int            sun_hover_svgSize = 431;
+    const int            sun_hover_svgSize = 697;
 
     extern const char*   speaker_svg;
-    const int            speaker_svgSize = 874;
+    const int            speaker_svgSize = 865;
 
     extern const char*   min_window_svg;
-    const int            min_window_svgSize = 542;
+    const int            min_window_svgSize = 532;
 
     extern const char*   min_window_hover_svg;
-    const int            min_window_hover_svgSize = 599;
+    const int            min_window_hover_svgSize = 589;
 
     extern const char*   arrow_next_bw_svg;
-    const int            arrow_next_bw_svgSize = 644;
+    const int            arrow_next_bw_svgSize = 633;
 
     extern const char*   arrow_prev_svg;
-    const int            arrow_prev_svgSize = 506;
+    const int            arrow_prev_svgSize = 499;
 
     extern const char*   arrow_next_svg;
-    const int            arrow_next_svgSize = 507;
+    const int            arrow_next_svgSize = 500;
 
     extern const char*   arrow_prev_bw_svg;
-    const int            arrow_prev_bw_svgSize = 639;
+    const int            arrow_prev_bw_svgSize = 628;
 
     extern const char*   Button_OFF_svg;
-    const int            Button_OFF_svgSize = 2422;
+    const int            Button_OFF_svgSize = 2394;
 
     extern const char*   Button_ON_svg;
-    const int            Button_ON_svgSize = 3246;
+    const int            Button_ON_svgSize = 3207;
 
     extern const char*   dropdown_arrow_bw_svg;
-    const int            dropdown_arrow_bw_svgSize = 750;
+    const int            dropdown_arrow_bw_svgSize = 738;
 
     extern const char*   dropdown_arrow_hover_svg;
-    const int            dropdown_arrow_hover_svgSize = 685;
+    const int            dropdown_arrow_hover_svgSize = 675;
 
     extern const char*   FxSound_Logo_svg;
     const int            FxSound_Logo_svgSize = 7254;
 
     extern const char*   FxSound_White_Bars_svg;
-    const int            FxSound_White_Bars_svgSize = 589;
+    const int            FxSound_White_Bars_svgSize = 9155;
 
     extern const char*   fxsound_png;
-    const int            fxsound_pngSize = 388;
+    const int            fxsound_pngSize = 3148;
 
     extern const char*   fxsound_large_png;
-    const int            fxsound_large_pngSize = 3334;
+    const int            fxsound_large_pngSize = 19435;
 
     extern const char*   maximize_svg;
-    const int            maximize_svgSize = 826;
+    const int            maximize_svgSize = 816;
 
     extern const char*   maximize_hover_svg;
-    const int            maximize_hover_svgSize = 838;
+    const int            maximize_hover_svgSize = 828;
 
     extern const char*   menu_svg;
-    const int            menu_svgSize = 552;
+    const int            menu_svgSize = 542;
 
     extern const char*   menu_hover_svg;
-    const int            menu_hover_svgSize = 669;
+    const int            menu_hover_svgSize = 659;
 
     extern const char*   minimize_svg;
-    const int            minimize_svgSize = 951;
+    const int            minimize_svgSize = 940;
 
     extern const char*   minimize_hover_svg;
-    const int            minimize_hover_svgSize = 963;
+    const int            minimize_hover_svgSize = 952;
 
     extern const char*   power_off_svg;
-    const int            power_off_svgSize = 2218;
+    const int            power_off_svgSize = 2199;
 
     extern const char*   power_on_svg;
-    const int            power_on_svgSize = 2218;
+    const int            power_on_svgSize = 2199;
 
     extern const char*   question_svg;
-    const int            question_svgSize = 1252;
+    const int            question_svgSize = 1247;
 
     extern const char*   settings_svg;
-    const int            settings_svgSize = 1396;
+    const int            settings_svgSize = 1391;
 
     extern const char*   Slider_Thumb_svg;
-    const int            Slider_Thumb_svgSize = 4894;
+    const int            Slider_Thumb_svgSize = 4839;
 
     extern const char*   Slider_Thumb_bw_svg;
-    const int            Slider_Thumb_bw_svgSize = 4109;
+    const int            Slider_Thumb_bw_svgSize = 4061;
 
     extern const char*   FxSound_ar_txt;
-    const int            FxSound_ar_txtSize = 14745;
+    const int            FxSound_ar_txtSize = 14551;
 
     extern const char*   FxSound_ba_txt;
-    const int            FxSound_ba_txtSize = 11241;
+    const int            FxSound_ba_txtSize = 11052;
 
     extern const char*   FxSound_de_txt;
-    const int            FxSound_de_txtSize = 12455;
+    const int            FxSound_de_txtSize = 12276;
 
     extern const char*   FxSound_es_txt;
-    const int            FxSound_es_txtSize = 11940;
+    const int            FxSound_es_txtSize = 11756;
 
     extern const char*   FxSound_fr_txt;
-    const int            FxSound_fr_txtSize = 12334;
+    const int            FxSound_fr_txtSize = 12142;
 
     extern const char*   FxSound_hr_txt;
-    const int            FxSound_hr_txtSize = 11090;
+    const int            FxSound_hr_txtSize = 10901;
 
     extern const char*   fxsound_hu_txt;
-    const int            fxsound_hu_txtSize = 12637;
+    const int            fxsound_hu_txtSize = 12414;
 
     extern const char*   FxSound_id_txt;
-    const int            FxSound_id_txtSize = 11568;
+    const int            FxSound_id_txtSize = 11397;
 
     extern const char*   FxSound_ir_txt;
-    const int            FxSound_ir_txtSize = 14356;
+    const int            FxSound_ir_txtSize = 14145;
 
     extern const char*   FxSound_it_txt;
-    const int            FxSound_it_txtSize = 11833;
+    const int            FxSound_it_txtSize = 11656;
 
     extern const char*   FxSound_ja_txt;
-    const int            FxSound_ja_txtSize = 13243;
+    const int            FxSound_ja_txtSize = 13070;
 
     extern const char*   FxSound_ko_txt;
-    const int            FxSound_ko_txtSize = 12196;
+    const int            FxSound_ko_txtSize = 12041;
 
     extern const char*   FxSound_nl_txt;
-    const int            FxSound_nl_txtSize = 11503;
+    const int            FxSound_nl_txtSize = 11336;
 
     extern const char*   FxSound_no_txt;
-    const int            FxSound_no_txtSize = 11590;
+    const int            FxSound_no_txtSize = 11407;
 
     extern const char*   FxSound_pl_txt;
-    const int            FxSound_pl_txtSize = 12251;
+    const int            FxSound_pl_txtSize = 12075;
 
     extern const char*   FxSound_ptbr_txt;
-    const int            FxSound_ptbr_txtSize = 11970;
+    const int            FxSound_ptbr_txtSize = 11781;
 
     extern const char*   FxSound_pt_txt;
-    const int            FxSound_pt_txtSize = 11847;
+    const int            FxSound_pt_txtSize = 11671;
 
     extern const char*   FxSound_ro_txt;
-    const int            FxSound_ro_txtSize = 12019;
+    const int            FxSound_ro_txtSize = 11837;
 
     extern const char*   FxSound_ru_txt;
-    const int            FxSound_ru_txtSize = 16021;
-
-    extern const char*   FxSound_sl_txt;
-    const int            FxSound_sl_txtSize = 11334;
+    const int            FxSound_ru_txtSize = 15826;
 
     extern const char*   FxSound_sv_txt;
-    const int            FxSound_sv_txtSize = 11649;
+    const int            FxSound_sv_txtSize = 11464;
 
     extern const char*   FxSound_th_txt;
-    const int            FxSound_th_txtSize = 19236;
+    const int            FxSound_th_txtSize = 19006;
 
     extern const char*   FxSound_tr_txt;
-    const int            FxSound_tr_txtSize = 11742;
+    const int            FxSound_tr_txtSize = 11579;
 
     extern const char*   FxSound_txt;
-    const int            FxSound_txtSize = 10785;
+    const int            FxSound_txtSize = 10692;
 
     extern const char*   FxSound_ua_txt;
-    const int            FxSound_ua_txtSize = 15609;
+    const int            FxSound_ua_txtSize = 15416;
 
     extern const char*   FxSound_vi_txt;
-    const int            FxSound_vi_txtSize = 12886;
+    const int            FxSound_vi_txtSize = 12717;
 
     extern const char*   FxSound_zhCN_txt;
-    const int            FxSound_zhCN_txtSize = 10301;
+    const int            FxSound_zhCN_txtSize = 10145;
 
     extern const char*   FxSound_zhTW_txt;
-    const int            FxSound_zhTW_txtSize = 10455;
+    const int            FxSound_zhTW_txtSize = 10299;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 85;
+    const int namedResourceListSize = 84;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
