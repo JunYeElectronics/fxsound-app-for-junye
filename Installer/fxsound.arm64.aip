@@ -18,18 +18,18 @@
     <ROW Property="AiFeatIcoMainFeature" Value="fxsound.exe" Type="8"/>
     <ROW Property="AiSkipExitDlg" Value="1"/>
     <ROW Property="CTRLS" Value="2"/>
-    <ROW Property="DFX_VERSION" Value="12.0.0.0"/>
+    <ROW Property="DFX_VERSION" Value="1.0.0.0"/>
     <ROW Property="FXSOUND_CONFIG" Value="@"/>
     <ROW Property="FXSOUND_FREE_LINK" Value="IDNO"/>
     <ROW Property="LIMITUI" Value="1"/>
     <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:2"/>
-    <ROW Property="Manufacturer" Value="FxSound LLC"/>
+    <ROW Property="Manufacturer" Value="Jun Ye Electronics"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
     <ROW Property="ProductCode" Value="1033:{54B38F9A-B544-408C-8A98-3D893394812C} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
-    <ROW Property="ProductName" Value="FxSound"/>
+    <ROW Property="ProductName" Value="J&Y Audio"/>
     <ROW Property="ProductName_32" Value="[|ProductName]"/>
-    <ROW Property="ProductVersion" Value="1.2.8.0" Options="20"/>
+    <ROW Property="ProductVersion" Value="1.0.0.0" Options="20"/>
     <ROW Property="REBOOT" MultiBuildValue="DefaultBuild:Suppress"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
