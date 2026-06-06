@@ -12,7 +12,7 @@
            Manufacturer="Jun Ye Electronics"
            UpgradeCode="1CA2081B-0D5A-41DF-86E8-2788204CE340">
 
-    <Package InstallerVersion="200"
+    <Package InstallerVersion="200" Platform="x64"
              Compressed="yes"
              InstallScope="perMachine"
              Description="J&amp;Y Audio Sound Enhancer"
@@ -157,6 +157,7 @@
                 WorkingDirectory="JYAudioFolder"
                 Icon="fxsound.ico" />
       <Shortcut Id="UninstallShortcut"
+      <RemoveFolder Id="RemoveProgramMenuJYFolder" On="uninstall" />
                 Name="Uninstall J&amp;Y Audio"
                 Target="[System64Folder]msiexec.exe"
                 Arguments="/x [ProductCode]" />
