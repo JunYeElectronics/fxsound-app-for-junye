@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product Id="*"
+           Name="J&Y Audio"
+           Language="1033"
+           Version="1.0.0.0"
+           Manufacturer="Jun Ye Electronics"
+           UpgradeCode="1CA2081B-0D5A-41DF-86E8-2788204CE340">
+
+    <Package InstallerVersion="200"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Description="J&Y Audio Sound Enhancer"
+             Comments="J&Y Audio installer built with WiX" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of J&Y Audio is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="MainFeature" Title="J&Y Audio" Level="1">
+      <ComponentRef Id="AppFiles" />
+      <ComponentRef Id="DriverFiles_win10_x64" />
+      <ComponentRef Id="DriverFiles_win7_x64" />
+      <ComponentRef Id="FontFiles" />
+      <ComponentRef Id="PresetFiles" />
+      <ComponentRef Id="AppDataFiles" />
+      <ComponentRef Id="DesktopShortcut" />
+      <ComponentRef Id="StartMenuShortcut" />
+      <ComponentRef Id="IconFiles" />
+    </Feature>
+
+    <!-- ============================================================ -->
+    <!-- Directory Structure                                           -->
+    <!-- ============================================================ -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="Jun Ye Electronics">
+          <Directory Id="JYAudioFolder" Name="J&Y Audio">
+            <Directory Id="AppsFolder" Name="Apps" />
+            <Directory Id="DriversFolder" Name="Drivers">
+              <Directory Id="Win10Folder" Name="win10">
+                <Directory Id="Win10_x64Folder" Name="x64" />
+                <Directory Id="Win10_x86Folder" Name="x86" />
+              </Directory>
+              <Directory Id="Win7Folder" Name="win7">
+                <Directory Id="Win7_x64Folder" Name="x64" />
+                <Directory Id="Win7_x86Folder" Name="x86" />
+              </Directory>
+            </Directory>
+            <Directory Id="FactsoftFolder" Name="Factsoft" />
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="JYAudioAppDataFolder" Name="J&Y Audio" />
+      </Directory>
+      <Directory Id="DesktopFolder" />
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuJYFolder" Name="J&Y Audio" />
+      </Directory>
+      <Directory Id="System64Folder" />
+    </Directory>
+
+    <!-- ============================================================ -->
+    <!-- Component: Main Application Files (64-bit)                   -->
+    <!-- ============================================================ -->
+    <Component Id="AppFiles" Directory="JYAudioFolder" Guid="*">
+      <File Id="FxSound_exe" Source="..\bin\x64\FxSound.exe" KeyPath="yes" />
+      <File Id="fxdiag_exe" Source="..\bin\x64\fxdiag.exe" />
+      <File Id="audiopassthru_dll" Source="..\bin\x64\audiopassthru.dll" />
+      <File Id="DfxDsp_dll" Source="..\bin\x64\DfxDsp.dll" />
+      <File Id="updater_exe" Source="Apps\Version14\updater.exe" />
+      <File Id="DfxInstall_dll" Source="Apps\Version14\DfxInstall.dll" />
+      <File Id="DfxSetupDrv_exe" Source="Apps\Version14\DfxSetupDrv.exe" />
+      <File Id="FxSound_settings" Source="Resources\FxSound.settings" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Driver Files - Win10 x64                           -->
+    <!-- ============================================================ -->
+    <Component Id="DriverFiles_win10_x64" Directory="Win10_x64Folder" Guid="*">
+      <File Id="fxvad_inf_win10_x64" Source="Drivers\Version14\win10\x64\fxvad.inf" KeyPath="yes" />
+      <File Id="fxvad_sys_win10_x64" Source="Drivers\Version14\win10\x64\fxvad.sys" />
+      <File Id="fxvadntamd64_cat_win10" Source="Drivers\Version14\win10\x64\fxvadntamd64.cat" />
+      <File Id="fxdevcon64_win10" Source="Drivers\Version14\win10\x64\fxdevcon64.exe" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Driver Files - Win10 x86                           -->
+    <!-- ============================================================ -->
+    <Component Id="DriverFiles_win10_x86" Directory="Win10_x86Folder" Guid="*">
+      <File Id="fxvad_inf_win10_x86" Source="Drivers\Version14\win10\x86\fxvad.inf" KeyPath="yes" />
+      <File Id="fxvad_sys_win10_x86" Source="Drivers\Version14\win10\x86\fxvad.sys" />
+      <File Id="fxvadntx86_cat_win10" Source="Drivers\Version14\win10\x86\fxvadntx86.cat" />
+      <File Id="fxdevcon32_win10" Source="Drivers\Version14\win10\x86\fxdevcon32.exe" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Driver Files - Win7 x64                            -->
+    <!-- ============================================================ -->
+    <Component Id="DriverFiles_win7_x64" Directory="Win7_x64Folder" Guid="*">
+      <File Id="fxvad_inf_win7_x64" Source="Drivers\Version14\win7\x64\fxvad.inf" KeyPath="yes" />
+      <File Id="fxvad_sys_win7_x64" Source="Drivers\Version14\win7\x64\fxvad.sys" />
+      <File Id="fxvadntamd64_cat_win7" Source="Drivers\Version14\win7\x64\fxvadntamd64.cat" />
+      <File Id="fxdevcon64_win7" Source="Drivers\Version14\win7\x64\fxdevcon64.exe" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Driver Files - Win7 x86                            -->
+    <!-- ============================================================ -->
+    <Component Id="DriverFiles_win7_x86" Directory="Win7_x86Folder" Guid="*">
+      <File Id="fxvad_inf_win7_x86" Source="Drivers\Version14\win7\x86\fxvad.inf" KeyPath="yes" />
+      <File Id="fxvad_sys_win7_x86" Source="Drivers\Version14\win7\x86\fxvad.sys" />
+      <File Id="fxvadntx86_cat_win7" Source="Drivers\Version14\win7\x86\fxvadntx86.cat" />
+      <File Id="fxdevcon32_win7" Source="Drivers\Version14\win7\x86\fxdevcon32.exe" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Font Files                                         -->
+    <!-- ============================================================ -->
+    <Component Id="FontFiles" Directory="JYAudioFolder" Guid="*">
+      <File Id="NotoSansSC_Regular" Source="Resources\Fonts\NotoSansSC-Regular.otf" KeyPath="yes" />
+      <File Id="NotoSansSC_Medium" Source="Resources\Fonts\NotoSansSC-Medium.otf" />
+      <File Id="NotoSansSC_Bold" Source="Resources\Fonts\NotoSansSC-Bold.otf" />
+      <File Id="NotoSansKR_Regular" Source="Resources\Fonts\NotoSansKR-Regular.otf" />
+      <File Id="NotoSansKR_Medium" Source="Resources\Fonts\NotoSansKR-Medium.otf" />
+      <File Id="NotoSansKR_Bold" Source="Resources\Fonts\NotoSansKR-Bold.otf" />
+      <File Id="NotoSansJP_Regular" Source="Resources\Fonts\NotoSansJP-Regular.ttf" />
+      <File Id="NotoSansJP_Medium" Source="Resources\Fonts\NotoSansJP-Medium.ttf" />
+      <File Id="NotoSansJP_Bold" Source="Resources\Fonts\NotoSansJP-Bold.ttf" />
+      <File Id="NotoSansTC_Regular" Source="Resources\Fonts\NotoSansTC-Regular.ttf" />
+      <File Id="NotoSansTC_Medium" Source="Resources\Fonts\NotoSansTC-Medium.ttf" />
+      <File Id="NotoSansTC_Bold" Source="Resources\Fonts\NotoSansTC-Bold.ttf" />
+      <File Id="NotoSansThai_Regular" Source="Resources\Fonts\NotoSansThai-Regular.ttf" />
+      <File Id="NotoSansThai_Medium" Source="Resources\Fonts\NotoSansThai-Medium.ttf" />
+      <File Id="Montserrat_Regular" Source="Resources\Fonts\MontserratAlternates-Regular.ttf" />
+      <File Id="Montserrat_Medium" Source="Resources\Fonts\MontserratAlternates-Medium.ttf" />
+      <File Id="Montserrat_Bold" Source="Resources\Fonts\MontserratAlternates-Bold.ttf" />
+      <File Id="IBMPlexArabic_Regular" Source="Resources\Fonts\IBMPlexSansArabic-Regular.ttf" />
+      <File Id="IBMPlexArabic_Medium" Source="Resources\Fonts\IBMPlexSansArabic-Medium.ttf" />
+      <File Id="IBMPlexArabic_Bold" Source="Resources\Fonts\IBMPlexSansArabic-Bold.ttf" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Preset Files                                       -->
+    <!-- ============================================================ -->
+    <Component Id="PresetFiles" Directory="FactsoftFolder" Guid="*">
+      <File Id="Default_fac" Source="Resources\Factsoft\Default.fac" KeyPath="yes" />
+      <File Id="Preset_1" Source="Resources\Factsoft\1.fac" />
+      <File Id="Preset_2" Source="Resources\Factsoft\2.fac" />
+      <File Id="Preset_3" Source="Resources\Factsoft\3.fac" />
+      <File Id="Preset_4" Source="Resources\Factsoft\4.fac" />
+      <File Id="Preset_5" Source="Resources\Factsoft\5.fac" />
+      <File Id="Preset_6" Source="Resources\Factsoft\6.fac" />
+      <File Id="Preset_7" Source="Resources\Factsoft\7.fac" />
+      <File Id="Preset_8" Source="Resources\Factsoft\8.fac" />
+      <File Id="Preset_9" Source="Resources\Factsoft\9.fac" />
+      <File Id="Preset_10" Source="Resources\Factsoft\10.fac" />
+      <File Id="Preset_11" Source="Resources\Factsoft\11.fac" />
+      <File Id="Preset_12" Source="Resources\Factsoft\12.fac" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: AppData (settings stored in ProgramData)           -->
+    <!-- ============================================================ -->
+    <Component Id="AppDataFiles" Directory="JYAudioAppDataFolder" Guid="*">
+      <File Id="FxSound_settings_appdata" Source="Resources\FxSound.settings" KeyPath="yes" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: System Icons                                       -->
+    <!-- ============================================================ -->
+    <Component Id="IconFiles" Directory="System64Folder" Guid="*">
+      <File Id="dfx_ico" Source="Resources\dfx.ico" KeyPath="yes" />
+      <File Id="fxsound_ico" Source="Resources\fxsound.ico" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Desktop Shortcut                                  -->
+    <!-- ============================================================ -->
+    <Component Id="DesktopShortcut" Directory="DesktopFolder" Guid="*">
+      <Shortcut Id="DesktopShortcutJY"
+                Name="J&Y Audio"
+                Target="[JYAudioFolder]FxSound.exe"
+                WorkingDirectory="JYAudioFolder"
+                Icon="fxsound.ico" />
+      <RegistryValue Root="HKCU" Key="Software\JunYeElectronics\JYAudio"
+                     Name="desktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Component: Start Menu Shortcut                                -->
+    <!-- ============================================================ -->
+    <Component Id="StartMenuShortcut" Directory="ProgramMenuJYFolder" Guid="*">
+      <Shortcut Id="StartMenuShortcutJY"
+                Name="J&Y Audio"
+                Target="[JYAudioFolder]FxSound.exe"
+                WorkingDirectory="JYAudioFolder"
+                Icon="fxsound.ico" />
+      <Shortcut Id="UninstallShortcut"
+                Name="Uninstall J&Y Audio"
+                Target="[System64Folder]msiexec.exe"
+                Arguments="/x [ProductCode]" />
+      <RegistryValue Root="HKCU" Key="Software\JunYeElectronics\JYAudio"
+                     Name="startMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+
+    <!-- ============================================================ -->
+    <!-- Icons                                                         -->
+    <!-- ============================================================ -->
+    <Icon Id="fxsound.ico" SourceFile="Resources\fxsound.ico" />
+
+    <!-- ============================================================ -->
+    <!-- Custom Actions for Driver Installation                        -->
+    <!-- Uses DfxInstall.dll to install/uninstall the virtual audio   -->
+    <!-- device driver. Run from the Apps folder.                      -->
+    <!-- ============================================================ -->
+    <CustomAction Id="InstallDriver"
+                  Directory="JYAudioFolder"
+                  ExeCommand='[JYAudioFolder]Apps\DfxSetupDrv.exe /install "[JYAudioFolder]Drivers" "[JYAudioFolder]" [DFX_VERSION]'
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="check" />
+
+    <CustomAction Id="UninstallDriver"
+                  Directory="JYAudioFolder"
+                  ExeCommand='[JYAudioFolder]Apps\DfxSetupDrv.exe /uninstall "[JYAudioFolder]Drivers" "[JYAudioFolder]" [DFX_VERSION]'
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="check" />
+
+    <CustomAction Id="SetCustomActionData" Property="InstallDriver"
+                  Value="[APPDIR];[DFX_VERSION]" />
+
+    <CustomAction Id="SetCustomActionDataUninstall" Property="UninstallDriver"
+                  Value="[APPDIR];[DFX_VERSION]" />
+
+    <!-- ============================================================ -->
+    <!-- Install/Uninstall Sequences                                   -->
+    <!-- ============================================================ -->
+    <InstallExecuteSequence>
+      <Custom Action="SetCustomActionData" Before="InstallDriver">NOT REMOVE~="ALL"</Custom>
+      <Custom Action="InstallDriver" Before="InstallFinalize">NOT REMOVE~="ALL"</Custom>
+      <Custom Action="SetCustomActionDataUninstall" Before="UninstallDriver">REMOVE~="ALL"</Custom>
+      <Custom Action="UninstallDriver" Before="InstallFinalize">REMOVE~="ALL"</Custom>
+    </InstallExecuteSequence>
+
+    <!-- ============================================================ -->
+    <!-- Properties                                                    -->
+    <!-- ============================================================ -->
+    <Property Id="DFX_VERSION" Value="1.0.0.0" />
+    <Property Id="APPDIR" Value="[INSTALLFOLDER]" />
+
+  </Product>
+
+</Wix>
