@@ -65,11 +65,8 @@
     <Component Id="AppFiles" Directory="JYAudioFolder" Guid="*">
       <File Id="FxSound_exe" Source="..\..\bin\x64\FxSound.exe" KeyPath="yes" />
       <File Id="fxdiag_exe" Source="..\..\bin\x64\fxdiag.exe" />
-      <File Id="audiopassthru_dll" Source="..\..\bin\x64\audiopassthru.dll" />
-      <File Id="DfxDsp_dll" Source="..\..\bin\x64\DfxDsp.dll" />
-      <File Id="updater_exe" Source="..\DfxInstall\Release\x64\updater.exe" />
       <File Id="DfxInstall_dll" Source="..\DfxInstall\x64\Release\DfxInstall.dll" />
-      <File Id="DfxSetupDrv_exe" Source="..\DfxInstall\Release\x64\DfxSetupDrv.exe" />
+      <File Id="DfxSetupDrv_exe" Source="..\Apps\Version14\DfxSetupDrv.exe" />
       <File Id="FxSound_settings" Source="..\Resources\FxSound.settings" />
     </Component>
 
