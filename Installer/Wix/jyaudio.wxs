@@ -157,12 +157,12 @@
                 WorkingDirectory="JYAudioFolder"
                 Icon="fxsound.ico" />
       <Shortcut Id="UninstallShortcut"
-      <RemoveFolder Id="RemoveProgramMenuJYFolder" On="uninstall" />
                 Name="Uninstall J&amp;Y Audio"
                 Target="[System64Folder]msiexec.exe"
                 Arguments="/x [ProductCode]" />
       <RegistryValue Root="HKCU" Key="Software\JunYeElectronics\JYAudio"
                      Name="startMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      <RemoveFolder Id="RemoveProgramMenuJYFolder" On="uninstall" />
     </Component>
 
     <!-- Icons -->
