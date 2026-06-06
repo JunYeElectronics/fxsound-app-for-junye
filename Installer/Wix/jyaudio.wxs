@@ -62,7 +62,7 @@
     </Directory>
 
     <!-- Main Application Files -->
-    <Component Id="AppFiles" Directory="JYAudioFolder" Guid="*">
+    <Component Id="AppFiles" Directory="JYAudioFolder" Guid="A1B2C3D4-0001-4000-8000-000000000001">
       <File Id="FxSound_exe" Source="..\..\bin\x64\FxSound.exe" KeyPath="yes" />
       <File Id="fxdiag_exe" Source="..\..\bin\x64\fxdiag.exe" />
       <File Id="DfxInstall_dll" Source="..\DfxInstall\x64\Release\DfxInstall.dll" />
@@ -71,7 +71,7 @@
     </Component>
 
     <!-- Driver Files - Win10 x64 -->
-    <Component Id="DriverFiles_win10_x64" Directory="Win10_x64Folder" Guid="*">
+    <Component Id="DriverFiles_win10_x64" Directory="Win10_x64Folder" Guid="A1B2C3D4-0002-4000-8000-000000000002">
       <File Id="fxvad_inf_win10_x64" Source="..\Drivers\Version14\win10\x64\fxvad.inf" KeyPath="yes" />
       <File Id="fxvad_sys_win10_x64" Source="..\Drivers\Version14\win10\x64\fxvad.sys" />
       <File Id="fxvadntamd64_cat_win10" Source="..\Drivers\Version14\win10\x64\fxvadntamd64.cat" />
@@ -79,7 +79,7 @@
     </Component>
 
     <!-- Driver Files - Win7 x64 -->
-    <Component Id="DriverFiles_win7_x64" Directory="Win7_x64Folder" Guid="*">
+    <Component Id="DriverFiles_win7_x64" Directory="Win7_x64Folder" Guid="A1B2C3D4-0003-4000-8000-000000000003">
       <File Id="fxvad_inf_win7_x64" Source="..\Drivers\Version14\win7\x64\fxvad.inf" KeyPath="yes" />
       <File Id="fxvad_sys_win7_x64" Source="..\Drivers\Version14\win7\x64\fxvad.sys" />
       <File Id="fxvadntamd64_cat_win7" Source="..\Drivers\Version14\win7\x64\fxvadntamd64.cat" />
@@ -87,7 +87,7 @@
     </Component>
 
     <!-- Font Files -->
-    <Component Id="FontFiles" Directory="JYAudioFolder" Guid="*">
+    <Component Id="FontFiles" Directory="JYAudioFolder" Guid="A1B2C3D4-0004-4000-8000-000000000004">
       <File Id="NotoSansSC_Regular" Source="..\Resources\Fonts\NotoSansSC-Regular.otf" KeyPath="yes" />
       <File Id="NotoSansSC_Medium" Source="..\Resources\Fonts\NotoSansSC-Medium.otf" />
       <File Id="NotoSansSC_Bold" Source="..\Resources\Fonts\NotoSansSC-Bold.otf" />
@@ -111,7 +111,7 @@
     </Component>
 
     <!-- Preset Files -->
-    <Component Id="PresetFiles" Directory="FactsoftFolder" Guid="*">
+    <Component Id="PresetFiles" Directory="FactsoftFolder" Guid="A1B2C3D4-0005-4000-8000-000000000005">
       <File Id="Default_fac" Source="..\Resources\Factsoft\Default.fac" KeyPath="yes" />
       <File Id="Preset_1" Source="..\Resources\Factsoft\1.fac" />
       <File Id="Preset_2" Source="..\Resources\Factsoft\2.fac" />
@@ -128,18 +128,18 @@
     </Component>
 
     <!-- AppData -->
-    <Component Id="AppDataFiles" Directory="JYAudioAppDataFolder" Guid="*">
+    <Component Id="AppDataFiles" Directory="JYAudioAppDataFolder" Guid="A1B2C3D4-0006-4000-8000-000000000006">
       <File Id="FxSound_settings_appdata" Source="..\Resources\FxSound.settings" KeyPath="yes" />
     </Component>
 
     <!-- System Icons -->
-    <Component Id="IconFiles" Directory="System64Folder" Guid="*">
+    <Component Id="IconFiles" Directory="System64Folder" Guid="A1B2C3D4-0007-4000-8000-000000000007">
       <File Id="dfx_ico" Source="..\Resources\dfx.ico" KeyPath="yes" />
       <File Id="fxsound_ico" Source="..\Resources\fxsound.ico" />
     </Component>
 
     <!-- Desktop Shortcut -->
-    <Component Id="DesktopShortcut" Directory="DesktopFolder" Guid="*">
+    <Component Id="DesktopShortcut" Directory="DesktopFolder" Guid="A1B2C3D4-0008-4000-8000-000000000008">
       <Shortcut Id="DesktopShortcutJY"
                 Name="J&amp;Y Audio"
                 Target="[JYAudioFolder]FxSound.exe"
@@ -150,7 +150,7 @@
     </Component>
 
     <!-- Start Menu Shortcut -->
-    <Component Id="StartMenuShortcut" Directory="ProgramMenuJYFolder" Guid="*">
+    <Component Id="StartMenuShortcut" Directory="ProgramMenuJYFolder" Guid="A1B2C3D4-0009-4000-8000-000000000009">
       <Shortcut Id="StartMenuShortcutJY"
                 Name="J&amp;Y Audio"
                 Target="[JYAudioFolder]FxSound.exe"
