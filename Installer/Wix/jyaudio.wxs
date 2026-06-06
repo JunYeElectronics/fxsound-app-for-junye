@@ -168,7 +168,8 @@
     <!-- Icons -->
     <Icon Id="fxsound.ico" SourceFile="..\Resources\fxsound.ico" />
 
-    <!-- Custom Actions: Driver Install/Uninstall -->
+    <!-- Custom Actions: Driver Install/Uninstall (disabled - DfxSetupDrv.exe fails in MSI context) -->
+    <!--
     <CustomAction Id="InstallDriver"
                   Directory="JYAudioFolder"
                   ExeCommand='[JYAudioFolder]Apps\DfxSetupDrv.exe /install "[JYAudioFolder]Drivers" "[JYAudioFolder]" [DFX_VERSION]'
@@ -187,6 +188,7 @@
       <Custom Action="InstallDriver" After="InstallFiles"><![CDATA[NOT REMOVE~="ALL"]]></Custom>
       <Custom Action="UninstallDriver" Before="RemoveFiles"><![CDATA[REMOVE~="ALL"]]></Custom>
     </InstallExecuteSequence>
+    -->
 
     <!-- Properties -->
     <Property Id="DFX_VERSION" Value="1.0.0.0" />
