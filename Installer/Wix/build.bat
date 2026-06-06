@@ -1,8 +1,7 @@
 @echo off
 REM ============================================================
-REM  J&Y Audio Installer Build Script
-REM  Prerequisites: WiX Toolset 3.x installed and in PATH
-REM  Download: https://wixtoolset.org/releases/
+REM  J&Y Audio Installer Build Script (WiX v7)
+REM  Prerequisites: WiX Toolset v7 installed (wix-cli-x64.msi)
 REM ============================================================
 
 setlocal
@@ -10,20 +9,18 @@ cd /d "%~dp0"
 
 echo.
 echo ============================================
-echo   J&Y Audio Installer Builder
+echo   J&Y Audio Installer Builder (WiX v7)
 echo ============================================
 echo.
 
 REM Check WiX is available
-where candle.exe >nul 2>&1
+where wix.exe >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] WiX Toolset not found in PATH!
+    echo [ERROR] WiX Toolset v7 not found in PATH!
     echo.
-    echo Install WiX Toolset 3.x from:
-    echo   https://wixtoolset.org/releases/
-    echo.
-    echo After install, add to PATH:
-    echo   C:\Program Files (x86)\WiX Toolset v3.14\bin
+    echo Install from:
+    echo   https://github.com/wixtoolset/wix/releases
+    echo   Download: wix-cli-x64.msi
     echo.
     goto :end
 )
@@ -47,30 +44,24 @@ if not exist "Apps\Version14\DfxInstall.dll" (
     goto :end
 )
 
-echo [1/3] Compiling WiX source...
-candle.exe -nologo -dAPPDIR="." -dDFX_VERSION="1.0.0.0" -out jyaudio.wixobj Wix\jyaudio.wxs
+REM Create output directory
+if not exist "Output" mkdir Output
+
+echo [1/2] Building MSI installer...
+wix build jyaudio.wxs -o Output\jyaudio_setup.msi
 if %errorlevel% neq 0 (
-    echo [ERROR] Candle compilation failed!
+    echo.
+    echo [ERROR] WiX build failed!
+    echo.
     goto :end
 )
-
-echo [2/3] Linking MSI package...
-light.exe -nologo -ext WixUIExtension -out Output\jyaudio_setup.msi jyaudio.wixobj
-if %errorlevel% neq 0 (
-    echo [ERROR] Light linking failed!
-    goto :end
-)
-
-echo [3/3] Creating EXE bootstrapper...
-REM Optional: Create EXE wrapper for easy distribution
-REM Requires WiX Burn extension
 
 echo.
 echo ============================================
 echo   BUILD SUCCESSFUL!
 echo ============================================
 echo.
-echo Output: Installer\Output\jyaudio_setup.msi
+echo Output: Installer\Wix\Output\jyaudio_setup.msi
 echo.
 echo To test: run the MSI on a machine with FxSound
 echo          already installed (need original driver).
