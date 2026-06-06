@@ -90,7 +90,7 @@ namespace BinaryData
     const int            Slider_Thumb_blue_svgSize = 4839;
 
     extern const char*   logoblack_svg;
-    const int            logoblack_svgSize = 14759;
+    const int            logoblack_svgSize = 14015;
 
     extern const char*   sun_svg;
     const int            sun_svgSize = 697;
