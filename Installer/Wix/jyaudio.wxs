@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<!--
+  WiX v7 format for J&Y Audio Installer
+  Build: wix build jyaudio.wxs -o Output\jyaudio_setup.msi
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
 
-  <Product Id="*"
-           Name="J&Y Audio"
-           Language="1033"
-           Version="1.0.0.0"
+  <Package Name="J&Y Audio"
            Manufacturer="Jun Ye Electronics"
-           UpgradeCode="1CA2081B-0D5A-41DF-86E8-2788204CE340">
+           Version="1.0.0.0"
+           UpgradeCode="1CA2081B-0D5A-41DF-86E8-2788204CE340"
+           Scope="perMachine">
 
-    <Package InstallerVersion="200"
-             Compressed="yes"
-             InstallScope="perMachine"
-             Description="J&Y Audio Sound Enhancer"
-             Comments="J&Y Audio installer built with WiX" />
+    <SummaryInformation Description="J&Y Audio Sound Enhancer Installer" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of J&Y Audio is already installed." />
-    <MediaTemplate EmbedCab="yes" />
 
     <Feature Id="MainFeature" Title="J&Y Audio" Level="1">
       <ComponentRef Id="AppFiles" />
@@ -32,8 +31,8 @@
     <!-- ============================================================ -->
     <!-- Directory Structure                                           -->
     <!-- ============================================================ -->
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFiles64Folder">
+    <StandardDirectory Id="TARGETDIR">
+      <StandardDirectory Id="ProgramFiles64Folder">
         <Directory Id="INSTALLFOLDER" Name="Jun Ye Electronics">
           <Directory Id="JYAudioFolder" Name="J&Y Audio">
             <Directory Id="AppsFolder" Name="Apps" />
@@ -50,19 +49,19 @@
             <Directory Id="FactsoftFolder" Name="Factsoft" />
           </Directory>
         </Directory>
-      </Directory>
-      <Directory Id="CommonAppDataFolder">
+      </StandardDirectory>
+      <StandardDirectory Id="CommonAppDataFolder">
         <Directory Id="JYAudioAppDataFolder" Name="J&Y Audio" />
-      </Directory>
-      <Directory Id="DesktopFolder" />
-      <Directory Id="ProgramMenuFolder">
+      </StandardDirectory>
+      <StandardDirectory Id="DesktopFolder" />
+      <StandardDirectory Id="ProgramMenuFolder">
         <Directory Id="ProgramMenuJYFolder" Name="J&Y Audio" />
-      </Directory>
-      <Directory Id="System64Folder" />
-    </Directory>
+      </StandardDirectory>
+      <StandardDirectory Id="System64Folder" />
+    </StandardDirectory>
 
     <!-- ============================================================ -->
-    <!-- Component: Main Application Files (64-bit)                   -->
+    <!-- Component: Main Application Files                            -->
     <!-- ============================================================ -->
     <Component Id="AppFiles" Directory="JYAudioFolder" Guid="*">
       <File Id="FxSound_exe" Source="..\bin\x64\FxSound.exe" KeyPath="yes" />
@@ -86,16 +85,6 @@
     </Component>
 
     <!-- ============================================================ -->
-    <!-- Component: Driver Files - Win10 x86                           -->
-    <!-- ============================================================ -->
-    <Component Id="DriverFiles_win10_x86" Directory="Win10_x86Folder" Guid="*">
-      <File Id="fxvad_inf_win10_x86" Source="Drivers\Version14\win10\x86\fxvad.inf" KeyPath="yes" />
-      <File Id="fxvad_sys_win10_x86" Source="Drivers\Version14\win10\x86\fxvad.sys" />
-      <File Id="fxvadntx86_cat_win10" Source="Drivers\Version14\win10\x86\fxvadntx86.cat" />
-      <File Id="fxdevcon32_win10" Source="Drivers\Version14\win10\x86\fxdevcon32.exe" />
-    </Component>
-
-    <!-- ============================================================ -->
     <!-- Component: Driver Files - Win7 x64                            -->
     <!-- ============================================================ -->
     <Component Id="DriverFiles_win7_x64" Directory="Win7_x64Folder" Guid="*">
@@ -103,16 +92,6 @@
       <File Id="fxvad_sys_win7_x64" Source="Drivers\Version14\win7\x64\fxvad.sys" />
       <File Id="fxvadntamd64_cat_win7" Source="Drivers\Version14\win7\x64\fxvadntamd64.cat" />
       <File Id="fxdevcon64_win7" Source="Drivers\Version14\win7\x64\fxdevcon64.exe" />
-    </Component>
-
-    <!-- ============================================================ -->
-    <!-- Component: Driver Files - Win7 x86                            -->
-    <!-- ============================================================ -->
-    <Component Id="DriverFiles_win7_x86" Directory="Win7_x86Folder" Guid="*">
-      <File Id="fxvad_inf_win7_x86" Source="Drivers\Version14\win7\x86\fxvad.inf" KeyPath="yes" />
-      <File Id="fxvad_sys_win7_x86" Source="Drivers\Version14\win7\x86\fxvad.sys" />
-      <File Id="fxvadntx86_cat_win7" Source="Drivers\Version14\win7\x86\fxvadntx86.cat" />
-      <File Id="fxdevcon32_win7" Source="Drivers\Version14\win7\x86\fxdevcon32.exe" />
     </Component>
 
     <!-- ============================================================ -->
@@ -161,7 +140,7 @@
     </Component>
 
     <!-- ============================================================ -->
-    <!-- Component: AppData (settings stored in ProgramData)           -->
+    <!-- Component: AppData                                            -->
     <!-- ============================================================ -->
     <Component Id="AppDataFiles" Directory="JYAudioAppDataFolder" Guid="*">
       <File Id="FxSound_settings_appdata" Source="Resources\FxSound.settings" KeyPath="yes" />
@@ -211,46 +190,33 @@
     <Icon Id="fxsound.ico" SourceFile="Resources\fxsound.ico" />
 
     <!-- ============================================================ -->
-    <!-- Custom Actions for Driver Installation                        -->
-    <!-- Uses DfxInstall.dll to install/uninstall the virtual audio   -->
-    <!-- device driver. Run from the Apps folder.                      -->
+    <!-- Custom Actions: Driver Install/Uninstall                      -->
     <!-- ============================================================ -->
+    <SetProperty Id="InstallDriver" Before="InstallDriver" Value="[INSTALLFOLDER];[DFX_VERSION]" Sequence="execute" />
+
     <CustomAction Id="InstallDriver"
                   Directory="JYAudioFolder"
                   ExeCommand='[JYAudioFolder]Apps\DfxSetupDrv.exe /install "[JYAudioFolder]Drivers" "[JYAudioFolder]" [DFX_VERSION]'
                   Execute="deferred"
                   Impersonate="no"
-                  Return="check" />
+                  Return="check"
+                  After="InstallFiles" />
+
+    <SetProperty Id="UninstallDriver" Before="UninstallDriver" Value="[INSTALLFOLDER];[DFX_VERSION]" Sequence="execute" />
 
     <CustomAction Id="UninstallDriver"
                   Directory="JYAudioFolder"
                   ExeCommand='[JYAudioFolder]Apps\DfxSetupDrv.exe /uninstall "[JYAudioFolder]Drivers" "[JYAudioFolder]" [DFX_VERSION]'
                   Execute="deferred"
                   Impersonate="no"
-                  Return="check" />
-
-    <CustomAction Id="SetCustomActionData" Property="InstallDriver"
-                  Value="[APPDIR];[DFX_VERSION]" />
-
-    <CustomAction Id="SetCustomActionDataUninstall" Property="UninstallDriver"
-                  Value="[APPDIR];[DFX_VERSION]" />
-
-    <!-- ============================================================ -->
-    <!-- Install/Uninstall Sequences                                   -->
-    <!-- ============================================================ -->
-    <InstallExecuteSequence>
-      <Custom Action="SetCustomActionData" Before="InstallDriver">NOT REMOVE~="ALL"</Custom>
-      <Custom Action="InstallDriver" Before="InstallFinalize">NOT REMOVE~="ALL"</Custom>
-      <Custom Action="SetCustomActionDataUninstall" Before="UninstallDriver">REMOVE~="ALL"</Custom>
-      <Custom Action="UninstallDriver" Before="InstallFinalize">REMOVE~="ALL"</Custom>
-    </InstallExecuteSequence>
+                  Return="check"
+                  Before="RemoveFiles" />
 
     <!-- ============================================================ -->
     <!-- Properties                                                    -->
     <!-- ============================================================ -->
     <Property Id="DFX_VERSION" Value="1.0.0.0" />
-    <Property Id="APPDIR" Value="[INSTALLFOLDER]" />
 
-  </Product>
+  </Package>
 
 </Wix>

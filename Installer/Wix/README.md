@@ -1,10 +1,10 @@
-# J&Y Audio Installer (WiX)
+# J&Y Audio Installer (WiX v7)
 
 ## Prerequisites
 
-1. **WiX Toolset 3.14+** - https://wixtoolset.org/releases/
-   - Download and install the .exe installer
-   - Add to PATH: `C:\Program Files (x86)\WiX Toolset v3.14\bin`
+1. **WiX Toolset v7** - https://github.com/wixtoolset/wix/releases
+   - Download and install `wix-cli-x64.msi`
+   - After install, open a **new** terminal (PATH needs refresh)
 
 2. **Compiled binaries** (build in VS first):
    - `fxsound/Project/FxSound.sln` → Release|x64
@@ -12,7 +12,7 @@
 
 ## Build Steps
 
-### Option 1: Command Line
+### Option 1: Command Line (Recommended)
 ```
 cd Installer/Wix
 build.bat
@@ -21,17 +21,12 @@ build.bat
 ### Option 2: Manual
 ```
 cd Installer/Wix
-
-REM Compile
-candle.exe -nologo -out jyaudio.wixobj Wix\jyaudio.wxs
-
-REM Link
-light.exe -nologo -ext WixUIExtension -out Output\jyaudio_setup.msi jyaudio.wixobj
+wix build jyaudio.wxs -o Output\jyaudio_setup.msi
 ```
 
 ## Output
 
-- `Installer/Output/jyaudio_setup.msi` - MSI installer package
+- `Installer/Wix/Output/jyaudio_setup.msi` - MSI installer package
 
 ## What Gets Installed
 
@@ -48,9 +43,7 @@ Program Files\Jun Ye Electronics\J&Y Audio\
 │   └── DfxSetupDrv.exe  (driver setup)
 ├── Drivers/
 │   ├── win10/x64/       (Win10 64-bit driver)
-│   ├── win10/x86/       (Win10 32-bit driver)
-│   ├── win7/x64/        (Win7 64-bit driver)
-│   └── win7/x86/        (Win7 32-bit driver)
+│   └── win7/x64/        (Win7 64-bit driver)
 └── Factsoft/            (12 preset files + Default.fac)
 
 %ProgramData%\J&Y Audio\
@@ -72,3 +65,4 @@ The installer uses `DfxSetupDrv.exe` to:
 - This installer is for **x64 only** (no 32-bit support)
 - Original FxSound driver must be uninstalled first
 - The MSI requires admin privileges to install drivers
+- WiX v7 uses a single `wix build` command (no more candle+light)
