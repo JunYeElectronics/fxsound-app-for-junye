@@ -1,58 +1,64 @@
 @echo off
 REM ============================================================
-REM  J&Y Audio Installer Build Script (WiX v7)
-REM  Prerequisites: WiX Toolset v7 installed (wix-cli-x64.msi)
+REM  J^&Y Audio Installer Build Script (WiX v3)
+REM  Prerequisites: WiX Toolset v3.14 installed
+REM  Download: https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm
 REM ============================================================
 
-setlocal
 cd /d "%~dp0"
-
 echo.
 echo ============================================
-echo   J&Y Audio Installer Builder (WiX v7)
+echo   J^&Y Audio Installer Builder (WiX v3)
 echo ============================================
 echo.
 
-REM Check WiX is available
-where wix.exe >nul 2>&1
+REM Check WiX
+echo Checking WiX...
+where candle.exe >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] WiX Toolset v7 not found in PATH!
-    echo.
-    echo Install from:
-    echo   https://github.com/wixtoolset/wix/releases
-    echo   Download: wix-cli-x64.msi
-    echo.
+    echo [ERROR] candle.exe not found in PATH
+    echo Install WiX v3.14 and add to PATH
     goto :end
 )
+echo [OK] WiX found
+echo.
 
-REM Check that compiled binaries exist
-if not exist "..\bin\x64\FxSound.exe" (
-    echo [ERROR] FxSound.exe not found at ..\bin\x64\
-    echo Please build the solution first:
-    echo   1. Open fxsound\Project\FxSound.sln
-    echo   2. Build Release^|x64
-    echo.
+REM Check FxSound.exe
+echo Checking FxSound.exe...
+if exist "..\..\bin\x64\FxSound.exe" (
+    echo [OK] FxSound.exe found
+) else (
+    echo [ERROR] NOT found: ..\..\bin\x64\FxSound.exe
     goto :end
 )
+echo.
 
-if not exist "Apps\Version14\DfxInstall.dll" (
-    echo [ERROR] DfxInstall.dll not found at Apps\Version14\
-    echo Please build the installer solution first:
-    echo   1. Open Installer\DfxInstall\DfxInstall.sln
-    echo   2. Build Release^|x64
-    echo.
+REM Check DfxInstall.dll
+echo Checking DfxInstall.dll...
+if exist "..\DfxInstall\x64\Release\DfxInstall.dll" (
+    echo [OK] DfxInstall.dll found
+) else (
+    echo [ERROR] NOT found: ..\DfxInstall\x64\Release\DfxInstall.dll
     goto :end
 )
+echo.
 
 REM Create output directory
 if not exist "Output" mkdir Output
 
-echo [1/2] Building MSI installer...
-wix build jyaudio.wxs -o Output\jyaudio_setup.msi
+REM Step 1: Compile
+echo [1/3] Compiling...
+candle.exe -nologo -out Output\jyaudio.wixobj jyaudio.wxs
 if %errorlevel% neq 0 (
-    echo.
-    echo [ERROR] WiX build failed!
-    echo.
+    echo [ERROR] candle failed
+    goto :end
+)
+
+REM Step 2: Link
+echo [2/3] Linking MSI...
+light.exe -nologo -ext WixUIExtension -out Output\jyaudio_setup.msi Output\jyaudio.wixobj
+if %errorlevel% neq 0 (
+    echo [ERROR] light failed
     goto :end
 )
 
@@ -60,11 +66,7 @@ echo.
 echo ============================================
 echo   BUILD SUCCESSFUL!
 echo ============================================
-echo.
-echo Output: Installer\Wix\Output\jyaudio_setup.msi
-echo.
-echo To test: run the MSI on a machine with FxSound
-echo          already installed (need original driver).
+echo Output: %CD%\Output\jyaudio_setup.msi
 echo.
 
 :end
