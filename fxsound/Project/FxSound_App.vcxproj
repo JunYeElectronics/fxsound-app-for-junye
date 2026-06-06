@@ -120,6 +120,13 @@
     <Lib>
       <AdditionalDependencies>crypt32.lib;Wtsapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) ..\..\bin\$(PlatformTarget)\ /y
+copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y
+xcopy ..\Fonts\*.otf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\..\Installer\Resources\Factsoft\*.fac ..\..\bin\$(PlatformTarget)\Factsoft\ /y /q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -166,6 +173,13 @@
     <Lib>
       <AdditionalDependencies>crypt32.lib;Wtsapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) ..\..\bin\$(PlatformTarget)\ /y
+copy $(TargetDir)$(TargetName).pdb ..\..\bin\$(PlatformTarget)\ /y
+xcopy ..\Fonts\*.otf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\Fonts\*.ttf ..\..\bin\$(PlatformTarget)\ /y /q
+xcopy ..\..\Installer\Resources\Factsoft\*.fac ..\..\bin\$(PlatformTarget)\Factsoft\ /y /q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
