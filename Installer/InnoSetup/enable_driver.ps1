@@ -1,7 +1,10 @@
 # J&Y Audio - Enable Audio Driver Device
-# After fxdevcon installs the driver, Windows may leave it disabled.
-# This script finds the "J&Y Audio Enhancer" device and enables it
-# by setting DeviceState=1 in the MMDevices registry.
+# After driver installation, Windows may leave the virtual audio device disabled.
+# This script searches for the device by its friendly name and sets DeviceState=1.
+#
+# Note: The INF creates the device as "FxSound Audio Enhancer" (original name).
+# After DfxSetupDrv setname, it may be renamed to "J&Y Audio Enhancer".
+# We search for both names to handle fresh installs and re-installs.
 
 $ErrorActionPreference = "Stop"
 $logFile = "$env:TEMP\jyaudio_install.log"
@@ -15,7 +18,9 @@ Write-Log "enable_driver.ps1: Starting device enable check..."
 
 $renderPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render"
 $deviceNameProp = "{a45c254e-df1c-4efd-8020-67d146a850e0},2"
-$targetName = "J&Y Audio Enhancer"
+
+# Search for both names: INF default name and post-setname name
+$targetNames = @("FxSound Audio Enhancer", "J&Y Audio Enhancer")
 $found = $false
 $enabled = $false
 
@@ -25,25 +30,34 @@ try {
         try {
             $props = Get-ItemProperty -Path $device.PSPath -ErrorAction SilentlyContinue
             $name = $props.$deviceNameProp
-            if ($name -and $name.StartsWith($targetName)) {
-                $found = $true
-                Write-Log "Found device: $name (GUID: $($device.PSChildName))"
-                
-                $currentState = $props.DeviceState
-                Write-Log "Current DeviceState: 0x$('{0:X}' -f $currentState)"
-                
-                # Check if disabled (DEVICE_STATE_DISABLED = 0x10000001)
-                if ($currentState -band 0x10000001) {
-                    Write-Log "Device is DISABLED, enabling..."
-                    Set-ItemProperty -Path $device.PSPath -Name "DeviceState" -Value 1 -Type DWord -Force
-                    Write-Log "DeviceState set to 1 (enabled)"
-                    $enabled = $true
-                } else {
-                    Write-Log "Device is already enabled (DeviceState=$currentState)"
-                    $enabled = $true
+            if (-not $name) { continue }
+            
+            $matched = $false
+            foreach ($target in $targetNames) {
+                if ($name.StartsWith($target)) {
+                    $matched = $true
+                    break
                 }
-                break
             }
+            if (-not $matched) { continue }
+            
+            $found = $true
+            Write-Log "Found device: $name (GUID: $($device.PSChildName))"
+            
+            $currentState = $props.DeviceState
+            Write-Log "Current DeviceState: 0x$('{0:X}' -f $currentState)"
+            
+            # DEVICE_STATE_DISABLED = 0x10000001
+            if ($currentState -band 0x10000001) {
+                Write-Log "Device is DISABLED, enabling..."
+                Set-ItemProperty -Path $device.PSPath -Name "DeviceState" -Value 1 -Type DWord -Force
+                Write-Log "DeviceState set to 1 (enabled)"
+                $enabled = $true
+            } else {
+                Write-Log "Device is already enabled (DeviceState=$currentState)"
+                $enabled = $true
+            }
+            break
         } catch {
             # Skip devices we can't read
         }
@@ -53,12 +67,12 @@ try {
 }
 
 if (-not $found) {
-    Write-Log "WARNING: '$targetName' device not found in render devices"
-    Write-Log "This is OK if device was just installed and needs a moment to appear"
+    Write-Log "WARNING: Device not found in render devices"
+    Write-Log "This may be OK if driver was just installed and needs a moment"
 }
 
 if ($enabled) {
     Write-Log "enable_driver.ps1: Device enabled successfully"
 } else {
-    Write-Log "enable_driver.ps1: WARNING - device was not found/enabled"
+    Write-Log "enable_driver.ps1: WARNING - device was not found or could not be enabled"
 }
