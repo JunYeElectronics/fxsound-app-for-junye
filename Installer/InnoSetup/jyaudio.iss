@@ -103,7 +103,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 ; Install driver after file copy (requires admin)
-Filename: "{app}\install_driver.bat"; Parameters: "{app}"; StatusMsg: "Installing audio driver..."; Flags: runhidden waituntilterminated
+Filename: "{app}\install_driver.bat"; StatusMsg: "Installing audio driver..."; Flags: runhidden waituntilterminated
 
 [UninstallRun]
 ; Uninstall driver before file removal
