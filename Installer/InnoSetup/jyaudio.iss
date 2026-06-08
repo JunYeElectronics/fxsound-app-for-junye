@@ -4,7 +4,7 @@
 #define MyAppName "J&Y Audio"
 #define MyAppVersion "1.0.0.0"
 #define MyAppPublisher "Jun Ye Electronics"
-#define MyAppURL "http://www.jun-ye.com"
+#define MyAppURL "https://www.jun-ye.com"
 #define MyAppExeName "FxSound.exe"
 
 [Setup]
