@@ -258,6 +258,7 @@ private:
 
 	bool minimize_tip_;
 	bool survey_tip_;
+	bool minimized_requested_ = false;
 	int max_user_presets_;
 
 	DWORD session_id_;

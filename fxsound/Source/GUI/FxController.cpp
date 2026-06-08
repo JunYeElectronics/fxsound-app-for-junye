@@ -219,7 +219,14 @@ void FxController::config(const String& commandline)
 	auto filterq = arg_list.getValueForOption("--filter_q");
 	auto mastergain = arg_list.getValueForOption("--master_gain");
 	auto normalization = arg_list.getValueForOption("--normalization");
+	auto minimized = arg_list.containsOption("--minimized");
     
+    if (minimized)
+    {
+        minimized_requested_ = true;
+        settings_.setBool("run_minimized", true);
+    }
+
     if (preset.isNotEmpty())
     {
         settings_.setString("preset", preset);
@@ -367,7 +374,9 @@ void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray
 				FxMessage::showMessage(TRANS("FxSound is now open-source"), { TRANS("GitHub"), "https://github.com/fxsound2/fxsound-app" });
 			}
             view_ = ViewType::Pro;
-            settings_.setBool("run_minimized", false);
+            if (!minimized_requested_) {
+                settings_.setBool("run_minimized", false);
+            }
         }
 		
 		showView();
