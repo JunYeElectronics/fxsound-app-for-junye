@@ -92,9 +92,8 @@ Source: "..\Resources\Factsoft\12.fac"; DestDir: "{app}\Factsoft"; Flags: ignore
 Source: "..\Resources\dfx.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\fxsound.ico"; DestDir: "{app}"; Flags: ignoreversion
 
-; Driver installation script + enable helper
-Source: "install_driver.bat"; DestDir: "{app}"; Flags: ignoreversion
-Source: "enable_driver.ps1"; DestDir: "{app}"; Flags: ignoreversion
+; Driver installation script (PowerShell)
+Source: "install_driver.ps1"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -103,7 +102,9 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 ; Install driver after file copy (requires admin)
-Filename: "{app}\install_driver.bat"; StatusMsg: "Installing audio driver..."; Flags: runhidden waituntilterminated
+; Uses PowerShell instead of bat — Start-Process isolates fxdevcon
+; from Inno Setup's hidden console, avoiding handle inheritance hang.
+Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\install_driver.ps1"""; StatusMsg: "Installing audio driver..."; Flags: runhidden waituntilterminated
 
 [UninstallRun]
 ; Uninstall driver before file removal
