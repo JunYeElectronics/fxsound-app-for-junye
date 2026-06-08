@@ -16,6 +16,8 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
+UninstallDisplayIcon={app}\dfx.ico
+UninstallDisplayName={#MyAppName}
 OutputDir=..\Output
 OutputBaseFilename=jyaudio_setup
 Compression=lzma2/ultra64
@@ -94,6 +96,8 @@ Source: "..\Resources\fxsound.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Driver installation script (PowerShell)
 Source: "install_driver.ps1"; DestDir: "{app}"; Flags: ignoreversion
+; Driver uninstall script (PowerShell)
+Source: "uninstall_driver.ps1"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -107,5 +111,11 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\install_driver.ps1"""; StatusMsg: "Installing audio driver..."; Flags: runhidden waituntilterminated
 
 [UninstallRun]
-; Uninstall driver before file removal
-Filename: "{app}\Apps\DfxSetupDrv.exe"; Parameters: "/uninstall ""{app}\Drivers"" ""{app}"" 1.0.0.0"; Flags: runhidden waituntilterminated
+; Kill running FxSound before uninstalling
+Filename: "taskkill"; Parameters: "/f /im FxSound.exe"; Flags: runhidden skipifdoesntexist
+; Remove audio driver using PowerShell
+Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\uninstall_driver.ps1"""; StatusMsg: "Removing audio driver..."; Flags: runhidden waituntilterminated
+
+[Registry]
+; Auto-start minimized on login
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "J&Y Audio"; ValueData: """{app}\{#MyAppExeName}"" --minimized"; Flags: uninsdeletevalue
