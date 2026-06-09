@@ -457,8 +457,8 @@ void FxMainWindow::showMenu()
 	};
 
 	auto checkForUpdatesClicked = []() {
-		ChildProcess child_process;
-		child_process.start("updater.exe /checknow");
+		URL url("https://www.jun-ye.com/eq-application/");
+		url.launchInDefaultBrowser();
 	};
 
 	auto darkModeClicked = [this]() {

@@ -96,7 +96,7 @@ public:
 		DWORD state = 0;
 	};
 
-	enum class CpuArch {Unknown=0, x86, x64, ARM64};
+	enum class CpuArch {Unknown=0, x86, x64};
 
 	DfxInstall(const wchar_t* working_dir, const wchar_t* version);
 	~DfxInstall();
