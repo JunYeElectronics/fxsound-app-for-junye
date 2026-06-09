@@ -159,10 +159,6 @@ FxController::FxController() : message_window_(L"FxSoundHotkeys", (WNDPROC) even
 	{
 		logMessage(String("x64"));
 	}
-	else if (sys_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM64)
-	{
-		logMessage(String("ARM64"));
-	}
 
 	auto view = settings_.getInt("view");
 	if (view <= 0 || view > 2)

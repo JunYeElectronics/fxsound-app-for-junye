@@ -196,7 +196,7 @@ private:
 
         if (context == nullptr)
         {
-            // No crash context — capture live callstack
+            // No crash context ï¿½ capture live callstack
             void* frames[MAX_FRAMES];
             USHORT capturedFrames = CaptureStackBackTrace(0, MAX_FRAMES, frames, NULL);
 
@@ -228,7 +228,7 @@ private:
         }
         else
         {
-            // Crash context — walk using StackWalk64
+            // Crash context ï¿½ walk using StackWalk64
             STACKFRAME64 stackFrame = { 0 };
 #if defined(_M_IX86)
             DWORD machineType = IMAGE_FILE_MACHINE_I386;
@@ -245,14 +245,6 @@ private:
             stackFrame.AddrFrame.Offset = context->Rsp;
             stackFrame.AddrFrame.Mode = AddrModeFlat;
             stackFrame.AddrStack.Offset = context->Rsp;
-            stackFrame.AddrStack.Mode = AddrModeFlat;
-#elif defined(_M_ARM64)
-            DWORD machineType = IMAGE_FILE_MACHINE_ARM64;
-            stackFrame.AddrPC.Offset = context->Pc;
-            stackFrame.AddrPC.Mode = AddrModeFlat;
-            stackFrame.AddrFrame.Offset = context->Fp;
-            stackFrame.AddrFrame.Mode = AddrModeFlat;
-            stackFrame.AddrStack.Offset = context->Sp;
             stackFrame.AddrStack.Mode = AddrModeFlat;
 #else
 #error Unsupported platform

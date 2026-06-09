@@ -195,10 +195,6 @@ DfxInstall::DfxInstall(const wchar_t* working_dir, const wchar_t* version)
     {
         cpu_arch_ = CpuArch::x64;
     }
-    else if (sys_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM64)
-    {
-        cpu_arch_ = CpuArch::ARM64;
-    }
 }
 
 DfxInstall::~DfxInstall()
@@ -213,11 +209,7 @@ bool DfxInstall::InstallDFXDriver(std::string& log)
         return false;
     }
 
-    if (cpu_arch_ == CpuArch::ARM64)
-    {
-        return InstallARMDriver(log);
-    }
-    else
+else
     {
         return InstallIntelDriver(log);
     }
@@ -297,11 +289,7 @@ bool DfxInstall::UninstallFxSoundDriver(std::string& log)
         return false;
     }
 
-    if (cpu_arch_ == CpuArch::ARM64)
-    {
-        return UninstallARMDriver(log);
-    }
-    else
+else
     {
         return UninstallIntelDriver(log);
     }
@@ -549,17 +537,14 @@ bool DfxInstall::InstallARMDriver(std::string& log)
     std::wstring driver_path;
     std::wstring inf_path;
 
-    driver_path = working_dir_ + DRIVERS_FOLDER + L"win10\\arm64\\";
-    fxdevcon = driver_path + L"fxdevcon64.exe";
+fxdevcon = driver_path + L"fxdevcon64.exe";
     inf_path = driver_path + L"fxvad.inf";
 
     std::wstring cmd = fxdevcon + L" install \"" + inf_path + L"\"" + L" root\\fxvad";
     std::string output;
 
     if (CmdExec(cmd, driver_path, output))
-    {
-        log = log + "fxdevcon install ARM64 " + output + "\r\n";
-        if (output.find("Success", 0) == std::string::npos)
+    {if (output.find("Success", 0) == std::string::npos)
         {
             return false;
         }
@@ -693,8 +678,7 @@ bool DfxInstall::UninstallARMDriver(std::string& log)
     std::wstring driver_path;
     std::wstring inf_path;
 
-    driver_path = working_dir_ + DRIVERS_FOLDER + L"win10\\arm64\\";
-    fxdevcon = driver_path + L"fxdevcon64.exe";
+fxdevcon = driver_path + L"fxdevcon64.exe";
 
     std::string output;
     std::wstring cmd = fxdevcon + L" remove root\\fxvad";
