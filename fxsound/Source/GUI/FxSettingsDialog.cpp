@@ -707,7 +707,7 @@ FxSettingsDialog::HelpSettingsPane::HelpSettingsPane() : SettingsPane("Help"), a
 	changelog_link_.setJustificationType(Justification::topLeft);
 	quicktour_link_.setJustificationType(Justification::topLeft);
 	submitlogs_link_.setJustificationType(Justification::topLeft);
-	helpcenter_link_.setURL(URL(L"https://www.jun-ye.com"));
+	helpcenter_link_.setURL(URL(L"https://www.jun-ye.com/eq-application/"));
 	helpcenter_link_.setJustificationType(Justification::topLeft);
     feedback_link_.setURL(URL("https://www.jun-ye.com"));
 	feedback_link_.setJustificationType(Justification::topLeft);

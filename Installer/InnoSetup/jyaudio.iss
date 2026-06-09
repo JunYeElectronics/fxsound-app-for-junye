@@ -60,35 +60,32 @@ Source: "..\Resources\Fonts\NotoSansSC-Bold.otf"; DestDir: "{app}"; Flags: ignor
 Source: "..\Resources\Fonts\NotoSansKR-Regular.otf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\NotoSansKR-Medium.otf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\NotoSansKR-Bold.otf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\NotoSansJP-Regular.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\NotoSansJP-Medium.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\NotoSansJP-Bold.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\NotoSansTC-Regular.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\NotoSansTC-Medium.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\NotoSansTC-Bold.ttf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansJP-Regular.otf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansJP-Medium.otf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansJP-Bold.otf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansTC-Regular.otf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansTC-Medium.otf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansTC-Bold.otf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\NotoSansThai-Regular.ttf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\NotoSansThai-Medium.ttf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\MontserratAlternates-Regular.ttf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\MontserratAlternates-Medium.ttf"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Resources\Fonts\MontserratAlternates-Bold.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\IBMPlexSansArabic-Regular.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\IBMPlexSansArabic-Medium.ttf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\Resources\Fonts\IBMPlexSansArabic-Bold.ttf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansArabic-Regular.ttf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\Resources\Fonts\NotoSansArabic-Medium.ttf"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Preset files
-Source: "..\Resources\Factsoft\Default.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\1.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\2.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\3.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\4.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\5.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\6.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\7.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\8.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\9.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\10.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\11.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
-Source: "..\Resources\Factsoft\12.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\00_Default.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\01_General.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\02_Bass Boost.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\03_Classic Processing.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\04_Gaming.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\05_Light Processing.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\06_Movies.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\07_Music.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\08_Transcription.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\09_Voice.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
+Source: "..\Resources\Factsoft\10_Virtual  7.1 Surround.fac"; DestDir: "{app}\Factsoft"; Flags: ignoreversion
 
 ; Icon files
 Source: "..\Resources\dfx.ico"; DestDir: "{app}"; Flags: ignoreversion

@@ -452,20 +452,13 @@ void FxMainWindow::showMenu()
 	};
 
 	auto downloadClicked = []() {
-		URL url("https://www.jun-ye.com");
+		URL url("https://github.com/JunYeElectronics/fxsound-app-for-junye");
 		url.launchInDefaultBrowser();
 	};
 
 	auto checkForUpdatesClicked = []() {
 		ChildProcess child_process;
 		child_process.start("updater.exe /checknow");
-	};
-
-	auto toggleThemeClicked = [this]() {
-		if (FxTheme::getThemeMode() == FxThemeMode::Dark)
-			FxController::getInstance().setThemeMode(FxThemeMode::Light);
-		else
-			FxController::getInstance().setThemeMode(FxThemeMode::Dark);
 	};
 
 	auto darkModeClicked = [this]() {
@@ -525,9 +518,6 @@ void FxMainWindow::showMenu()
 	popup_menu.addSeparator();
 	popup_menu.addSubMenu(TRANS("Theme"), theme_menu);
 	popup_menu.addItem(TRANS("Always On Top"), true, isAlwaysOnTop(), alwaysOnTopClicked);
-	popup_menu.addSeparator();
-	popup_menu.addItem(TRANS("Toggle Theme"), toggleThemeClicked);
-
 	popup_menu.showAt(&menu_button_);
 }
 
