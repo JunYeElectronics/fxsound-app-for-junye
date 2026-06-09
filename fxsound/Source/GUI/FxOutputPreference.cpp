@@ -46,10 +46,10 @@ FxOutputDeviceRow::FxOutputDeviceRow(FxOutputPreferenceListModel& model) : up_bu
     preset_list_.setWantsKeyboardFocus(true);
     preset_list_.setJustificationType(Justification::centredLeft);   
     preset_list_.onChange = [this]() {
-        auto index = preset_list_.getSelectedItemIndex();
-        if (index >= 0)
+        auto id = preset_list_.getSelectedId();
+        if (id > 0)
         {
-            auto preset = preset_list_.getItemText(index);
+            auto preset = FxModel::getModel().getPreset(id - 1).name;
             device_config_.preset = preset;
             output_preference_list_model_.updateDeviceConfig(device_config_);
         }
@@ -118,9 +118,10 @@ void FxOutputDeviceRow::update(int index, const DeviceConfig& device_config)
     int selected_id = 0;
     for (auto i = 0; i < model.getPresetCount(); i++)
     {
-        auto preset = FxModel::getModel().getPreset(i).name;
-        preset_list_.addItem(preset, i + 1);
-        if (preset == device_config.preset)
+        auto& p = FxModel::getModel().getPreset(i);
+        auto display_name = (p.type == FxModel::PresetType::AppPreset) ? TRANS(p.name) : p.name;
+        preset_list_.addItem(display_name, i + 1);
+        if (p.name == device_config.preset)
         {
             selected_id = i + 1;
         }

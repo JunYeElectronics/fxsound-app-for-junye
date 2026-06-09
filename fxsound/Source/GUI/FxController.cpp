@@ -1783,6 +1783,9 @@ void FxController::setLanguage(String language_code)
     {
         main_window_->sendLookAndFeelChange();
     }
+
+    // Rebuild presets to apply new language translations
+    initPresets();
 }
 
 String FxController::getLanguageName(String language_code) const

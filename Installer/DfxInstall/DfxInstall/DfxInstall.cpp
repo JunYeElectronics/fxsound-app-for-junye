@@ -1,6 +1,6 @@
 /*
-FxSound
-Copyright (C) 2025  FxSound LLC
+J&Y Audio
+Copyright (C) 2026  Jun Ye Electronics
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -320,7 +320,7 @@ bool DfxInstall::CreateUpdateTask(std::string& log)
     }
 
     std::wstring update_cmd = L"\'" + working_dir_ + L"updater.exe\' /silent\"";
-    std::wstring create_task_cmd = std::wstring(L"schtasks /create /sc daily /tn FxSound\\Update /tr \"") + update_cmd + std::wstring(L" /st 10:00 /f");
+    std::wstring create_task_cmd = std::wstring(L"schtasks /create /sc daily /tn J&Y Audio\\Update /tr \"") + update_cmd + std::wstring(L" /st 10:00 /f");
 
     std::string output;
     if (CmdExec(create_task_cmd, working_dir_, output))
@@ -337,7 +337,7 @@ bool DfxInstall::CreateUpdateTask(std::string& log)
 
 bool DfxInstall::DeleteUpdateTask(std::string& log)
 {
-    std::wstring delete_task_cmd = L"schtasks /delete /tn \"FxSound\\Update\" /f";
+    std::wstring delete_task_cmd = L"schtasks /delete /tn \"J&Y Audio\\Update\" /f";
 
     std::string output;
     if (CmdExec(delete_task_cmd, working_dir_, output))
@@ -442,7 +442,7 @@ bool DfxInstall::InstallIntelDriver(std::string& log)
 
     if (!EnableDFXDriver())
     {
-        log = log + "FxSound driver is not enabled\r\n";
+        log = log + "J&Y Audio driver is not enabled\r\n";
         return false;
     }
 
@@ -518,7 +518,7 @@ bool DfxInstall::InstallIntelDriver(std::string& log)
         }
     }
 
-    cmd = L"powercfg -REQUESTSOVERRIDE DRIVER \"FxSound Audio Enhancer\" SYSTEM";
+    cmd = L"powercfg -REQUESTSOVERRIDE DRIVER \"J&Y Audio Enhancer\" SYSTEM";
     CmdExec(cmd, apps_path, output);
 
     return true;
@@ -532,9 +532,9 @@ bool DfxInstall::InstallARMDriver(std::string& log)
     {
         for (auto audio_device : audio_devices)
         {
-            if (audio_device.device_name.find(L"FxSound Audio Enhancer", 0) == 0)
+            if (audio_device.device_name.find(L"J&Y Audio Enhancer", 0) == 0)
             {
-                log = log + "FxSound Audio Enhancer already installed\r\n";
+                log = log + "J&Y Audio Enhancer already installed\r\n";
                 return true;
             }
         }
@@ -569,7 +569,7 @@ bool DfxInstall::InstallARMDriver(std::string& log)
 
     if (!EnableDFXDriver())
     {
-        log = log + "FxSound driver is not enabled\r\n";
+        log = log + "J&Y Audio driver is not enabled\r\n";
         return false;
     }
 
@@ -581,7 +581,7 @@ bool DfxInstall::InstallARMDriver(std::string& log)
     {
         for (auto audio_device : audio_devices)
         {
-            if (audio_device.device_name.find(L"FxSound Audio Enhancer", 0) == 0)
+            if (audio_device.device_name.find(L"J&Y Audio Enhancer", 0) == 0)
             {
                 device_id = audio_device.device_guid;
                 break;
@@ -609,7 +609,7 @@ bool DfxInstall::InstallARMDriver(std::string& log)
         RegCloseKey(h_key);
     }
 
-    cmd = L"powercfg -REQUESTSOVERRIDE DRIVER \"FxSound Audio Enhancer\" SYSTEM";
+    cmd = L"powercfg -REQUESTSOVERRIDE DRIVER \"J&Y Audio Enhancer\" SYSTEM";
     CmdExec(cmd, driver_path, output);
 
     return true;
@@ -974,7 +974,7 @@ bool DfxInstall::EnableDFXDriver()
 
     for (auto audio_device : audio_devices)
     {
-        if (audio_device.device_name.find(L"FxSound Audio Enhancer", 0) == 0)
+        if (audio_device.device_name.find(L"J&Y Audio Enhancer", 0) == 0)
         {
             if (audio_device.state & DEVICE_STATE_DISABLED)
             {

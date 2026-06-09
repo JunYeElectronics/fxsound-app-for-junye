@@ -156,7 +156,7 @@ void FxView::modelChanged(FxModel::Event model_event)
 				preset_type = preset.type;
 			}
 
-			auto name = preset.name;
+			auto name = (preset.type == FxModel::PresetType::AppPreset) ? TRANS(preset.name) : preset.name;
 			if (i == FxModel::getModel().getSelectedPreset() && FxModel::getModel().isPresetModified())
 			{
 				name = name + L" *";
@@ -188,7 +188,8 @@ void FxView::modelChanged(FxModel::Event model_event)
 			auto count = FxModel::getModel().getPresetCount();
 			for (auto i=0; i<count; i++)
 			{
-				preset_list_.changeItemText(i + 1, FxModel::getModel().getPreset(i).name);
+				auto& p = FxModel::getModel().getPreset(i);
+			preset_list_.changeItemText(i + 1, (p.type == FxModel::PresetType::AppPreset) ? TRANS(p.name) : p.name);
 			}
 			if (!preset_list_.isPopupActive())
 			{
