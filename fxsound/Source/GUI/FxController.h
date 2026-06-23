@@ -92,6 +92,7 @@ public:
 	void deletePreset();
 	void undoPreset();
 	void resetPresets();
+	void clearAllDeviceConfigs();
     bool exportPresets(const Array< FxModel::Preset>& presets);
     bool importPresets(const Array<File>& preset_files, StringArray& imported_presets, StringArray& skipped_presets);
 

@@ -880,6 +880,20 @@ void FxController::resetPresets()
 	FxModel::getModel().pushMessage(TRANS("Presets are restored to factory defaults"));
 }
 
+void FxController::clearAllDeviceConfigs()
+{
+	DeviceConfig::clearAllDeviceConfigs(settings_);
+
+	// Re-initialize device configs from current devices (empty presets)
+	std::vector<SoundDevice> sound_devices = audio_passthru_->getSoundDevices();
+	DeviceConfig::initDeviceConfigs(settings_, sound_devices);
+
+	// Refresh the output device list in UI
+	FxModel::getModel().initOutputs(active_output_devices_);
+
+	FxModel::getModel().pushMessage(TRANS("All device preferences have been cleared"));
+}
+
 bool FxController::exportPresets(const Array< FxModel::Preset>& presets)
 {
     auto path_name = File::addTrailingSeparator(File::getSpecialLocation(File::SpecialLocationType::userDocumentsDirectory).getFullPathName()) + L"FxSound\\Presets\\Export\\";
