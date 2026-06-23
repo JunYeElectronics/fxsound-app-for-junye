@@ -1,4 +1,4 @@
 [submodule "Resources"]
 	path = Resources
-	url = https://github.com/fxsound2/Resources.git
+	url = https://github.com/JunYeElectronics/Resources.git
 	branch = main
