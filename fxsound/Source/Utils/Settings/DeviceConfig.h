@@ -37,11 +37,13 @@ namespace FxSound
         static void saveDeviceConfigs(Settings& settings, juce::StringRef key, const juce::Array<DeviceConfig>& device_configs);
 
         static DeviceConfig getDeviceConfig(Settings& settings, juce::String device_name);
+        static void clearAllDeviceConfigs(Settings& settings);
 
     private:
         static juce::var toJson(const DeviceConfig& device_config);
         static DeviceConfig fromJson(const juce::var& v);
         static juce::Array<DeviceConfig> removeDuplicates(const juce::Array<DeviceConfig>& device_configs);
+        static juce::String stripTrailingNumber(const juce::String& name);
     };
 }
 

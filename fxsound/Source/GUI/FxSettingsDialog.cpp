@@ -189,7 +189,7 @@ FxSettingsDialog::AudioSettingsPane::AudioSettingsPane() :
 	normalizer_slider_("%0.0f dB", 0.0f), 
 	filter_q_slider_("%.1fx", 1.0f), balance_slider_(0.0f),
 	restore_defaults_button_(TRANS("Restore Defaults")),
-	reset_presets_button_(TRANS("Reset presets to factory defaults"))
+	reset_presets_button_(TRANS("Reset all preferences"))
 {
 	FxModel::getModel().addListener(this);
 
@@ -293,12 +293,11 @@ FxSettingsDialog::AudioSettingsPane::AudioSettingsPane() :
 
 	reset_presets_button_.setSize(RESET_PRESETS_BUTTON_WIDTH, BUTTON_HEIGHT);
 	reset_presets_button_.setMouseCursor(MouseCursor::PointingHandCursor);
-	reset_presets_button_.setEnabled(FxModel::getModel().getUserPresetCount() > 0);
+	reset_presets_button_.setEnabled(true);
 	reset_presets_button_.onClick = [this]() {
 		auto& controller = FxController::getInstance();
 
-		controller.resetPresets();
-		reset_presets_button_.setEnabled(false);
+		controller.clearAllDeviceConfigs();
 		};
 
 	setText();
@@ -342,7 +341,10 @@ void FxSettingsDialog::AudioSettingsPane::resized()
 	auto width = getWidth() - ((X_MARGIN + 5) * 2);
 	output_preference_.setBounds(X_MARGIN, y, width, OUTPUT_PREFERENCE_HEIGHT);
 
-	y = output_preference_.getBottom() + 30;
+	y = output_preference_.getBottom() + 8;
+	resizeResetButton(X_MARGIN, y);
+
+	y = reset_presets_button_.getBottom() + 20;
 	equalizer_title_.setBounds(X_MARGIN, y, LABEL_WIDTH, COMBOBOX_HEIGHT);
 	width = getWidth() - ((X_MARGIN + 5) * 2) - LABEL_WIDTH - GROUP_MARGIN;
 	equalizer_.setBounds(LABEL_WIDTH + X_MARGIN + 10, y, width, COMBOBOX_HEIGHT);
@@ -384,11 +386,8 @@ void FxSettingsDialog::AudioSettingsPane::resized()
 	group_x = output_preference_title_.getX() - GROUP_MARGIN;
 	group_y = output_preference_title_.getY() - GROUP_MARGIN;
 	group_width = output_preference_.getRight() - group_x + GROUP_MARGIN;
-	group_height = output_preference_.getBottom() - group_y + GROUP_MARGIN;
+	group_height = reset_presets_button_.getBottom() - group_y + GROUP_MARGIN;
 	output_preference_bounds_ = juce::Rectangle<float>(group_x, group_y, group_width, group_height);
-
-	y = restore_defaults_button_.getBottom();
-	resizeResetButton(X_MARGIN, y + 30);
 }
 
 void FxSettingsDialog::AudioSettingsPane::paint(Graphics& g)
@@ -439,7 +438,7 @@ void FxSettingsDialog::AudioSettingsPane::setText()
 	}
 	restore_defaults_button_.setBounds(restore_defaults_button_.getX(), restore_defaults_button_.getY(), button_width, BUTTON_HEIGHT);
 
-	reset_presets_button_.setButtonText(TRANS("Reset presets to factory defaults"));
+	reset_presets_button_.setButtonText(TRANS("Reset all preferences"));
 	resizeResetButton(reset_presets_button_.getX(), reset_presets_button_.getY());
 }
 
@@ -693,15 +692,13 @@ void FxSettingsDialog::GeneralSettingsPane::setText()
     hotkeys_toggle_.setButtonText(TRANS("Disable keyboard shortcuts"));
 }
 
-FxSettingsDialog::HelpSettingsPane::HelpSettingsPane() : SettingsPane("Help"), auto_updates_toggle_(TRANS("Automatic updates"))
+FxSettingsDialog::HelpSettingsPane::HelpSettingsPane() : SettingsPane("Help")
 {	
 	version_title_.setColour(Label::ColourIds::textColourId, getLookAndFeel().findColour(TextButton::textColourOnId));
 	version_title_.setJustificationType(Justification::centredLeft);
 	version_text_.setJustificationType(Justification::centredLeft);	
 	support_title_.setColour(Label::ColourIds::textColourId, getLookAndFeel().findColour(TextButton::textColourOnId));
 	support_title_.setJustificationType(Justification::centredLeft);	
-	maintenance_title_.setColour(Label::ColourIds::textColourId, getLookAndFeel().findColour(TextButton::textColourOnId));
-	maintenance_title_.setJustificationType(Justification::centredLeft);
 
 	changelog_link_.setURL(URL(L"https://github.com/JunYeElectronics/fxsound-app-for-junye/releases"));
 	changelog_link_.setJustificationType(Justification::topLeft);
@@ -712,26 +709,15 @@ FxSettingsDialog::HelpSettingsPane::HelpSettingsPane() : SettingsPane("Help"), a
     feedback_link_.setURL(URL("https://www.jun-ye.com"));
 	feedback_link_.setJustificationType(Justification::topLeft);
 
-	auto_updates_toggle_.setMouseCursor(MouseCursor::PointingHandCursor);
-	auto_updates_toggle_.setToggleState(FxController::getInstance().getAutoUpdates(), NotificationType::dontSendNotification);
-	auto_updates_toggle_.setColour(ToggleButton::ColourIds::tickColourId, getLookAndFeel().findColour(TextButton::textColourOnId));
-	auto_updates_toggle_.setColour(ToggleButton::ColourIds::textColourId, getLookAndFeel().findColour(TextButton::textColourOnId));
-
-	auto_updates_toggle_.onClick = [this]() {
-		FxController::getInstance().setAutoUpdates(auto_updates_toggle_.getToggleState());
-	};
-
     setText();
 
 	addAndMakeVisible(version_title_);
 	addAndMakeVisible(version_text_);
 	addAndMakeVisible(support_title_);
-	addAndMakeVisible(maintenance_title_);
 	addAndMakeVisible(changelog_link_);
 	addChildComponent(quicktour_link_);
 	addChildComponent(submitlogs_link_);
 	addAndMakeVisible(helpcenter_link_);
-	addAndMakeVisible(auto_updates_toggle_);
 }
 
 void FxSettingsDialog::HelpSettingsPane::resized()
@@ -744,8 +730,6 @@ void FxSettingsDialog::HelpSettingsPane::resized()
 	changelog_link_.setBounds(X_MARGIN+5, version_text_.getBottom()+10, getWidth()-X_MARGIN, HYPERLINK_HEIGHT);
 	support_title_.setBounds(X_MARGIN, changelog_link_.getBottom()+20, getWidth()-X_MARGIN, TITLE_HEIGHT);
 	helpcenter_link_.setBounds(X_MARGIN+5, support_title_.getBottom()+10, getWidth()-X_MARGIN, HYPERLINK_HEIGHT);
-	maintenance_title_.setBounds(X_MARGIN, helpcenter_link_.getBottom()+20, getWidth()-X_MARGIN, TITLE_HEIGHT);
-	auto_updates_toggle_.setBounds(X_MARGIN + 5, maintenance_title_.getBottom() + 10, BUTTON_WIDTH, TOGGLE_BUTTON_HEIGHT);
 }
 
 void FxSettingsDialog::HelpSettingsPane::paint(Graphics& g)
@@ -769,14 +753,10 @@ void FxSettingsDialog::HelpSettingsPane::setText()
     
     support_title_.setText(TRANS("Support"), NotificationType::dontSendNotification);
     support_title_.setFont(theme.getNormalFont());
-    
-    maintenance_title_.setText(TRANS("Maintenance"), NotificationType::dontSendNotification);
-    maintenance_title_.setFont(theme.getNormalFont());
 
-    changelog_link_.setButtonText(TRANS("Changelog"));    
+    changelog_link_.setButtonText(TRANS("Release Page"));    
     quicktour_link_.setButtonText(TRANS("Quick tour"));    
     submitlogs_link_.setButtonText(TRANS("Submit debug logs"));    
     helpcenter_link_.setButtonText(TRANS("Help center"));        
     feedback_link_.setButtonText(TRANS("Feedback"));
-	auto_updates_toggle_.setButtonText(TRANS("Automatic updates"));;
 }

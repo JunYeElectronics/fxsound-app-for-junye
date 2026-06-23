@@ -2,7 +2,7 @@
 ; Build with Inno Setup 6.x: https://jrsoftware.org/isdl.php
 
 #define MyAppName "J&Y Audio"
-#define MyAppVersion "1.0.0.1"
+#define MyAppVersion "1.01"
 #define MyAppPublisher "Jun Ye Electronics"
 #define MyAppURL "https://www.jun-ye.com"
 #define MyAppExeName "FxSound.exe"

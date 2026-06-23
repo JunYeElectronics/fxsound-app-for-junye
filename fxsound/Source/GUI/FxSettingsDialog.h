@@ -197,14 +197,12 @@ private:
         
 		Label version_title_;
 		Label support_title_;
-		Label maintenance_title_;
 		Label version_text_;
 		FxHyperlink changelog_link_;
 		FxHyperlink quicktour_link_;
 		FxHyperlink submitlogs_link_;
 		FxHyperlink helpcenter_link_;
 		FxHyperlink feedback_link_;
-		ToggleButton auto_updates_toggle_;
 		ToggleButton debug_log_toggle_;
 	};
 

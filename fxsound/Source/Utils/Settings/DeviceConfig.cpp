@@ -49,39 +49,6 @@ namespace FxSound
         saveDeviceConfigs(settings, "device_configs", device_configs);
     }
 
-    void DeviceConfig::updateDeviceConfigs(Settings& settings, const std::vector<SoundDevice>& sound_devices)
-    {
-        juce::Array<DeviceConfig> device_configs = loadDeviceConfigs(settings, "device_configs");
-
-        bool save_config = false;
-        for (auto sound_device : sound_devices)
-        {
-            if (!sound_device.isRealDevice)
-                continue;
-
-            bool device_found = false;
-            for (auto device_config : device_configs)
-            {
-                if (device_config.device_name == sound_device.deviceFriendlyName.c_str())
-                {
-                    device_found = true;
-                    break;
-                }
-            }
-            if (!device_found)
-            {
-                save_config = true;
-                DeviceConfig device_config = { sound_device.pwszID.c_str() , sound_device.deviceFriendlyName.c_str(), "" };
-                device_configs.add(device_config);
-            }
-        }
-
-        if (save_config)
-        {
-            saveDeviceConfigs(settings, "device_configs", device_configs);
-        }
-    }
-
     DeviceConfig DeviceConfig::getDeviceConfig(Settings& settings, juce::String device_name)
     {
         juce::Array<DeviceConfig> device_configs = loadDeviceConfigs(settings, "device_configs");
@@ -136,6 +103,89 @@ namespace FxSound
         }
 
         return result;
+    }
+
+    juce::String DeviceConfig::stripTrailingNumber(const juce::String& name)
+    {
+        auto trimmed = name.trim();
+        if (trimmed.endsWithChar(')'))
+        {
+            auto idx = trimmed.lastIndexOfChar('(');
+            if (idx >= 0 && idx < trimmed.length() - 2)
+            {
+                auto suffix = trimmed.substring(idx + 1, trimmed.length() - 1);
+                bool allDigits = true;
+                for (auto c : suffix)
+                {
+                    if (!CharacterFunctions::isDigit(c))
+                    {
+                        allDigits = false;
+                        break;
+                    }
+                }
+                if (allDigits)
+                {
+                    return trimmed.substring(0, idx).trim();
+                }
+            }
+        }
+        return name;
+    }
+
+    void DeviceConfig::updateDeviceConfigs(Settings& settings, const std::vector<SoundDevice>& sound_devices)
+    {
+        juce::Array<DeviceConfig> device_configs = loadDeviceConfigs(settings, "device_configs");
+        bool save_config = false;
+        for (auto sound_device : sound_devices)
+        {
+            if (!sound_device.isRealDevice)
+                continue;
+            bool device_found = false;
+            for (auto& device_config : device_configs)
+            {
+                if (device_config.device_name == sound_device.deviceFriendlyName.c_str())
+                {
+                    // Update device_id (pwszID) to current port — name matched, keep preset
+                    device_config.device_id = sound_device.pwszID.c_str();
+                    device_found = true;
+                    break;
+                }
+            }
+            if (!device_found)
+            {
+                // Smart match: try matching by base name (strip trailing "(N)" suffix)
+                auto new_base = stripTrailingNumber(sound_device.deviceFriendlyName.c_str());
+                for (auto& device_config : device_configs)
+                {
+                    auto existing_base = stripTrailingNumber(device_config.device_name);
+                    if (existing_base == new_base && existing_base.isNotEmpty())
+                    {
+                        // Same base name — reuse this config, update name and device_id
+                        device_config.device_id = sound_device.pwszID.c_str();
+                        device_config.device_name = sound_device.deviceFriendlyName.c_str();
+                        device_found = true;
+                        save_config = true;
+                        break;
+                    }
+                }
+                if (!device_found)
+                {
+                    save_config = true;
+                    DeviceConfig device_config = { sound_device.pwszID.c_str() , sound_device.deviceFriendlyName.c_str(), "" };
+                    device_configs.add(device_config);
+                }
+            }
+        }
+
+        if (save_config)
+        {
+            saveDeviceConfigs(settings, "device_configs", device_configs);
+        }
+    }
+
+    void DeviceConfig::clearAllDeviceConfigs(Settings& settings)
+    {
+        settings.setJson("device_configs", juce::var(juce::Array<juce::var>()));
     }
 
     juce::Array<DeviceConfig> DeviceConfig::loadDeviceConfigs(Settings& settings, juce::StringRef key)
