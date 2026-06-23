@@ -16,6 +16,7 @@ This is a customized build of FxSound maintained by **Jun Ye Electronics (J&Y Au
 * Install [Visual Studio 2022](https://visualstudio.microsoft.com/vs)
 * Install [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk)
 * Install [JUCE 6.1.6](https://github.com/juce-framework/JUCE/releases/tag/6.1.6) for x64/x86
+* Install [Inno Setup](https://jrsoftware.org/isdl.php)
 
 FxSound application requires FxSound Audio Enhancer virtual audio driver. So, to run FxSound application built from source, we need to install FxSound which installs the audio driver.
 
