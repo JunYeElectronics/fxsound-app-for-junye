@@ -636,7 +636,9 @@ bool FxController::setPreset(int selected_preset, bool notify)
 
 void FxController::setOutput(const String output_device_id, bool notify)
 {
+	OutputDebugStringA("J&Y Audio: setOutput entering\n");
 	std::vector<SoundDevice> sound_devices = audio_passthru_->getSoundDevices();
+	OutputDebugStringA("J&Y Audio: setOutput got sound_devices\n");
 
 	bool output_found = false;
 
@@ -1037,6 +1039,7 @@ void FxController::initOutputs(std::vector<SoundDevice>& sound_devices)
 
 void FxController::updateOutputs(std::vector<SoundDevice>& sound_devices)
 {	
+	OutputDebugStringA("J&Y Audio: updateOutputs entering\n");
     auto previous_device_count = active_output_devices_.size();
 
 	active_output_devices_.clear();
@@ -1342,7 +1345,9 @@ void FxController::timerCallback()
 		return;
 	}
 
+	OutputDebugStringA("J&Y Audio: timerCallback calling processTimer\n");
     audio_passthru_->processTimer();
+	OutputDebugStringA("J&Y Audio: timerCallback processTimer returned\n");
 	auto total_audio_process_time = dfx_dsp_.getTotalAudioProcessedTime();
 	if (audio_process_time_ != total_audio_process_time)
 	{
@@ -1393,6 +1398,8 @@ void FxController::timerCallback()
 void FxController::onSoundDeviceChange(std::vector<SoundDevice> sound_devices)
 {
 	ScopedLock auto_lock(lock_);
+
+	OutputDebugStringA("J&Y Audio: onSoundDeviceChange [with-arg] entering\n");
 
 	auto available = audio_passthru_->isPlaybackDeviceAvailable();
 	if (available != playback_device_available_)
@@ -1450,7 +1457,9 @@ void FxController::onSoundDeviceChange()
 	{
 		ScopedLock auto_lock(lock_);
 
+		OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] entering\n");
 		auto sound_devices = audio_passthru_->getSoundDevices(true);
+		OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] got sound_devices\n");
 
 		active_output_devices_.clear();
 
@@ -1465,10 +1474,11 @@ void FxController::onSoundDeviceChange()
 		// Update the configuration as per the change in active devices and update the output device list in UI
 		if (sound_devices.size() != device_count_)
 		{
+			OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] device count changed\n");
 			DeviceConfig::updateDeviceConfigs(settings_, sound_devices);
-
+			OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] configs updated\n");
 			FxModel::getModel().initOutputs(active_output_devices_);
-
+			OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] model notified\n");
 			device_count_ = (uint32_t)sound_devices.size();
 		}
 		
@@ -1481,7 +1491,7 @@ void FxController::onSoundDeviceChange()
                 setOutputName(output_device.deviceFriendlyName.c_str());
 				FxModel::getModel().setSelectedOutput(output_device);
 
-				if (!FxModel::getModel().isPresetModified())
+                if (!FxModel::getModel().isPresetModified())
 				{
 					auto device_config = DeviceConfig::getDeviceConfig(settings_, getOutputName());
 					if (device_config.preset.isNotEmpty())
@@ -1498,8 +1508,10 @@ void FxController::onSoundDeviceChange()
 
 		if (!default_device_found)
 		{
+			OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] no default device\n");
 			setOutput(getPreferredOutput().pwszID.c_str());
-        }
+		}
+		OutputDebugStringA("J&Y Audio: onSoundDeviceChange [no-arg] exiting\n");
 	}
 }
 

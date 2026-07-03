@@ -1,4 +1,4 @@
-/*
+/* 
 FxSound
 Copyright (C) 2025  FxSound LLC
 
@@ -53,12 +53,10 @@ CsndDevicesMMNotificationClient::~CsndDevicesMMNotificationClient()
 }
 
 // IUnknown methods -- AddRef, Release, and QueryInterface
-
 ULONG STDMETHODCALLTYPE CsndDevicesMMNotificationClient::AddRef()
 {
   return InterlockedIncrement(&_cRef);
 }
-
 ULONG STDMETHODCALLTYPE CsndDevicesMMNotificationClient::Release()
 {
   ULONG ulRef = InterlockedDecrement(&_cRef);
@@ -90,6 +88,12 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::QueryInterface(
   return S_OK;
 }
 
+// Added to allow handle to be set during sndDevicesInit call
+void CsndDevicesMMNotificationClient::SetPtHandle(PT_HANDLE *sndDevices_hdl)
+{
+    g_sndDevicesCallbacks_hdl = sndDevices_hdl;
+}
+
 // Callback methods for device-event notifications.
 
 HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnDefaultDeviceChanged(
@@ -103,12 +107,22 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnDefaultDeviceChange
   if (cast_handle == NULL)
     return(S_OK);
 
+  // Windows may pass NULL pwstrDeviceId in edge cases — guard all wcscmp calls
+  if (pwstrDeviceId == NULL)
+    return(S_OK);
+
+  // During reinit, the device arrays (pwszID, totalNumDevices, etc.) are being
+  // rebuilt. Accessing them from a callback thread causes a race-condition crash.
+  // Return immediately — the reinit will re-enumerate devices when done.
+  if (cast_handle->ignoreDeviceCallbacks != FALSE)
+    return(S_OK);
+
   if (cast_handle->dfxDeviceNum == SND_DEVICES_DEVICE_NOT_PRESENT)
 	return(S_OK);
 
   SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDefaultDeviceChanged() enters");
 
-  if( (flow == eRender) && (role == eMultimedia) && (cast_handle->ignoreDeviceCallbacks == FALSE) )
+  if( (flow == eRender) && (role == eMultimedia) )
   {
 	  // If one of the DFX capture devices was set as the default and the default device has been changed, force a re-initialization.
 	  // Note- setting the flag only if a DFX device was the default is filtering out callbacks we want made.
@@ -123,8 +137,8 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnDefaultDeviceChange
 	  /* Set the newly targeted playback device as the default.  It will then automatically become the targeted device */
 	  //if (sndDevicesSetDeviceType(g_sndDevicesCallbacks_hdl, SND_DEVICES_DEFAULT, &temp_string[0], &i_resultFlag) != OKAY)
 		//  return(NOT_OKAY);
-  	
-  	
+	  
+	  
 	  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
   }
 
@@ -153,15 +167,16 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnDeviceAdded(LPCWSTR
 
   if (cast_handle == NULL)
     return(S_OK);
-	
+
   SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceAdded() enters");
 
+  // During reinit, skip all callback processing to avoid race conditions.
+  if (cast_handle->ignoreDeviceCallbacks != FALSE)
+    return(S_OK);
+
   // These callbacks only appear to get hit when a device is added that didn't already have a driver installed.
-  if( cast_handle->ignoreDeviceCallbacks == FALSE )
-  {
-	  SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceAdded() setting processing thread kill flag");
-	  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
-  }
+  SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceAdded() setting processing thread kill flag");
+  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
 
   if (cast_handle->deviceChangeCallback != NULL)
 	  cast_handle->deviceChangeCallback();
@@ -180,13 +195,12 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnDeviceRemoved(LPCWS
 
   SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceRemoved() enters");
 
-  // These callbacks only appear to get hit when a device is added that didn't already have a driver installed.
-  if( cast_handle->ignoreDeviceCallbacks == FALSE )
-  {
-	  SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceRemoved() setting processing thread kill flag");
+  // During reinit, skip all callback processing to avoid race conditions.
+  if (cast_handle->ignoreDeviceCallbacks != FALSE)
+    return(S_OK);
 
-	  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
-  }
+  SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceRemoved() setting processing thread kill flag");
+  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
 
   if (cast_handle->deviceChangeCallback != NULL)
 	  cast_handle->deviceChangeCallback();
@@ -236,15 +250,16 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnDeviceStateChanged(
   if( pwstrDeviceId == NULL )
 		wcscpy(cast_handle->lastDeviceAddCallbackGuid, L"");
   else
-	   wcscpy(cast_handle->lastDeviceAddCallbackGuid, pwstrDeviceId );
+   wcscpy(cast_handle->lastDeviceAddCallbackGuid, pwstrDeviceId );
 
   cast_handle->lastDeviceAddCallbackGuidtype = dwNewState;
 
-  if( cast_handle->ignoreDeviceCallbacks == FALSE )
-  {
-	  SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceStateChanged() setting processing thread kill flag");
-	  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
-  }
+  // During reinit, skip all callback processing to avoid race conditions.
+  if (cast_handle->ignoreDeviceCallbacks != FALSE)
+    return(S_OK);
+
+  SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnDeviceStateChanged() setting processing thread kill flag");
+  cast_handle->stopAudioCaptureAndPlaybackLoop = 1;
 
   if (cast_handle->deviceChangeCallback != NULL)
 	  cast_handle->deviceChangeCallback();
@@ -271,7 +286,7 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnPropertyValueChange
 	struct sndDevicesHdlType *cast_handle;
 	wchar_t guidID[PT_MAX_GENERIC_STRLEN];
 	int deviceNum;
-	 
+	
 	cast_handle = (struct sndDevicesHdlType *)g_sndDevicesCallbacks_hdl;
 
 	if (cast_handle == NULL)
@@ -294,10 +309,4 @@ HRESULT STDMETHODCALLTYPE CsndDevicesMMNotificationClient::OnPropertyValueChange
 	//SLOUT_FIRST_LINE(L"CsndDevicesMMNotificationClient::OnPropertyValueChanged() enters");
 
 	return S_OK;
-}
-
-// Function to be called from sndDevicesInit to pass in allocated handle for by methods in this class.
-void CsndDevicesMMNotificationClient::SetPtHandle(PT_HANDLE *sndDevices_hdl)
-{
-	g_sndDevicesCallbacks_hdl = sndDevices_hdl;
 }

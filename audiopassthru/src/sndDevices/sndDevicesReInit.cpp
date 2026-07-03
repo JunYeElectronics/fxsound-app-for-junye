@@ -63,7 +63,7 @@ int PT_DECLSPEC sndDevicesReInit(PT_HANDLE *hp_sndDevices, int i_initType, int *
 	*ipDfxDeviceEnabledFlag = IS_FALSE;
 	cast_handle->function_status = SND_DEVICES_DEVICE_OPERATION_COMPLETED;	// Clear function error status code.
 
-	//cast_handle->ignoreDeviceCallbacks = TRUE;
+	cast_handle->ignoreDeviceCallbacks = TRUE;
 
 	cast_handle->totalNumDevices = SND_DEVICES_DEVICE_NOT_PRESENT;
 	cast_handle->dfxDeviceNum = SND_DEVICES_DEVICE_NOT_PRESENT;
@@ -308,6 +308,12 @@ int PT_DECLSPEC sndDevicesReInit(PT_HANDLE *hp_sndDevices, int i_initType, int *
 
 			cast_handle->ignoreDeviceCallbacks = FALSE;
 		}
+		else
+		{
+			// No real devices found â€” re-enable callbacks so new
+			// device connections can be detected.
+			cast_handle->ignoreDeviceCallbacks = FALSE;
+		}
 	}
 
 	SLOUT_FIRST_LINE(L"sndDevicesReInit():: Returns OKAY");
@@ -375,7 +381,7 @@ int PT_DECLSPEC sndCheckDeviceChanges(PT_HANDLE* hp_sndDevices, BOOL* bp_deviceC
 			{
 				deviceFound = TRUE;
 
-				// Device ID matched — now check if its state has changed
+				// Device ID matched ï¿½ now check if its state has changed
 				DWORD currentState = 0;
 				hr = pDevice->GetState(&currentState);
 				if (SUCCEEDED(hr) && currentState != cast_handle->deviceState[j])

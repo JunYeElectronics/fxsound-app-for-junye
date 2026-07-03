@@ -98,6 +98,14 @@ int PT_DECLSPEC sndDevicesDoCapture(PT_HANDLE *hp_sndDevices, float **fpp_buffer
 		// With the looping now used to build playback buffer we can sleep for very short time.
 		Sleep(1);
 
+		// Re-check stop flag after sleep — device may have been disconnected during the sleep.
+		if( cast_handle->stopAudioCaptureAndPlaybackLoop == 1 )
+		{
+			*ip_numSampleSets = 0;
+			*ip_resultFlag = SND_DEVICES_CAPTURE_FORCED_EXIT;
+			return(OKAY);
+		}
+
 		// Check for bad value to upsample ratio, was happening when some Bluetooth devices were added or removed (11/25/15).
 		if( (cast_handle->upsampleRatio <= 0) || (cast_handle->upsampleRatio > 16) )
 		{/*
@@ -158,6 +166,14 @@ int PT_DECLSPEC sndDevicesDoCapture(PT_HANDLE *hp_sndDevices, float **fpp_buffer
 
 		if( numDesiredCaptureFrames == 0 )
 			goto DoneGrabbingFrames;
+
+		// Check stop flag before entering the inner capture loop where COM calls happen.
+		if( cast_handle->stopAudioCaptureAndPlaybackLoop == 1 )
+		{
+			*ip_numSampleSets = 0;
+			*ip_resultFlag = SND_DEVICES_CAPTURE_FORCED_EXIT;
+			return(OKAY);
+		}
 
 		// The audio is streamed in small "packets", a number of frames (sample sets). So far it appears that
 		// packets are always 10ms in duration, independent of sampling freq, so at 44.1k we get 441 sample sets/packet.

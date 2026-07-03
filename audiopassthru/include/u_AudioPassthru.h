@@ -63,7 +63,7 @@ private:
 	/* Processing Thread Info */
 	HANDLE hProcessingThread_;
 	DWORD ProcessingThreadID_;
-	int i_kill_processing_thread_; /* Flag set from the outside telling processing thread to end */
+	volatile int i_kill_processing_thread_; /* Flag set from the outside telling processing thread to end */
 	wchar_t wcp_playback_device_guid_[PT_MAX_GENERIC_STRLEN];
 	bool b_no_valid_snd_device_dialog_shown_; /* Flag stating whether we have shown the user a message to select a valid snd device.  We only want it shown once per session. */
 	int debug_;

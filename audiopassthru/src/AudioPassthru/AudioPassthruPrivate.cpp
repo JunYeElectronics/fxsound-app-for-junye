@@ -121,16 +121,20 @@ void AudioPassthruPrivate::setDspProcessingModule(DfxDsp* p_dfx_dsp)
 
 std::vector<SoundDevice> AudioPassthruPrivate::getSoundDevices(bool active_devices)
 {
+	OutputDebugStringA("J&Y Audio: getSoundDevices entering\n");
 	if (checkDeviceChanges())
 	{
+		OutputDebugStringA("J&Y Audio: getSoundDevices device changes detected, re-enumerating\n");
 		int numRealDevices;
 		int DfxDeviceEnabledFlag;
 		int statusFlag;
 
 		sndDevices_GetAll(hp_sndDevices_, &(s_sndDevices_.totalNumDevices));
+		OutputDebugStringA("J&Y Audio: getSoundDevices sndDevices_GetAll completed\n");
 	}
 
 	sndDeviceHandleToSoundDevices(active_devices);
+	OutputDebugStringA("J&Y Audio: getSoundDevices exiting\n");
 	return sound_devices_;
 }
 
@@ -365,6 +369,7 @@ int AudioPassthruPrivate::processTimer()
 
 	if (b_need_to_start_thread)
 	{
+		OutputDebugStringA("J&Y Audio: processSndServerTimer reinitializing\n");
 		/* Initialize flag which can be set by the outside telling thread to end */
 		i_kill_processing_thread_ = IS_FALSE;
 
@@ -412,13 +417,9 @@ int AudioPassthruPrivate::processTimer()
 		if ((numRealDevices > 0) && (DfxDeviceEnabledFlag == IS_TRUE))
 			hProcessingThread_ = CreateThread(NULL, 0, processingThread, (LPVOID)this, 0L, &ProcessingThreadID_);
 
-		/* Check if a new playback device has been selected */
-		/*
-		if (dfxg_SndServerHdmiFixCheckForNewPlaybackDevice(hp_dfxg) != OKAY)
-			return(NOT_OKAY);
-		*/
-
+		OutputDebugStringA("J&Y Audio: processSndServerTimer calling onSoundDeviceChange\n");
 		s_callback_->onSoundDeviceChange(getSoundDevices());
+		OutputDebugStringA("J&Y Audio: processSndServerTimer onSoundDeviceChange returned\n");
 	}
 
 	return(OKAY);
@@ -457,82 +458,101 @@ DWORD AudioPassthruPrivate::threadWorker(void)
 		if (i_kill_processing_thread_)
 			goto KillProcessingThread;
 
-		// Does the data capture and returns a pointer to the data and signal info to be used for in place audio processing.
-		// NOT_OKAY is only returned for catastrophic errors but if resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS
-		// then typically a change in a device property has caused the capture or playback operation to fail, in this
-		// case we need to exit this thread so a reinitialization can be done.
-		if (sndDevicesDoCapture(hp_sndDevices_, &fp_buffer, &numSampleSets, &pwfx, &resultFlag) != OKAY)
-			return(NOT_OKAY);
-
-		// A non-successful flag will typically be due to a change in the playback devices properties.
-		if (resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS)
-			goto KillProcessingThread;
-
-		/* Check if thread has been signaled to end */
-		if (i_kill_processing_thread_)
-			goto KillProcessingThread;
-
-		if (numSampleSets > 0)
+		/* Use SEH to catch access violations from COM objects that may have been
+		 * invalidated when an audio device is disconnected (e.g. Bluetooth headset disconnect).
+		 * Without this, a dangling COM pointer causes an unhandled exception crash. */
+		__try
 		{
-			/* Set additional processing settings */
-			i_valid_bits = pwfx->wBitsPerSample;
-			i_check_for_duplicate_buffers = IS_FALSE;
+			// Does the data capture and returns a pointer to the data and signal info to be used for in place audio processing.
+			// NOT_OKAY is only returned for catastrophic errors but if resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS
+			// then typically a change in a device property has caused the capture or playback operation to fail, in this
+			// case we need to exit this thread so a reinitialization can be done.
+			if (sndDevicesDoCapture(hp_sndDevices_, &fp_buffer, &numSampleSets, &pwfx, &resultFlag) != OKAY)
+				return(NOT_OKAY);
 
-			/* Make sure processing module has the current format settings */
-			//if (dfxpUniversalSetSignalFormat(cast_handle->dfxp_hdl, pwfx->wBitsPerSample, pwfx->nChannels, pwfx->nSamplesPerSec, i_valid_bits) != OKAY)
-				//return(NOT_OKAY);
-			if (p_dfx_dsp_->setSignalFormat(pwfx->wBitsPerSample, pwfx->nChannels, pwfx->nSamplesPerSec, i_valid_bits) != OKAY)
-			{
-				// In Release build, initially setSignalFormat() will return NOT OKAY so execution will hit here and throws up message box due to return NOT_OAKY.
-				// However, it doesn't happen in Debug build. Workaround is just comment out return(NOT_OKAY) so it won't throw up message boxes in Release build
-				// and eventually it will start to return OKAY.
-				//return(NOT_OKAY);
-			}
-				
-			
-
-			// 2016-08-25: Workaround for crashing when playback device has only one channel (mono). For example, a Bleutooth headset is mono. When such
-			// device is selected as the playback device, we do not apply DFX/DSP processing to the buffer for now. Otherwise it will crash.
-			// NOTE: There will also be no sound with a mono playback device until we add code to fill mono playback buffer in sndDevicesDoCapture.cpp, line 279.
-			if (pwfx->nChannels != 1 || (pwfx->nChannels == 1 && !SND_DEVICES_MONO_BUG_DO_NOT_PROCESS))
-			{
-				// Apply DFX processing here using data and format vars above. Format will always be 32 bit floating point.
-			//	if (dfxpUniversalModifySamples(cast_handle->dfxp_hdl, (short int *)fp_buffer, (short int *)fp_buffer, numSampleSets, i_check_for_duplicate_buffers) != OKAY)
-				//	return(NOT_OKAY);
-				p_dfx_dsp_->processAudio((short int *)fp_buffer, (short int *)fp_buffer, numSampleSets, i_check_for_duplicate_buffers);
-			}
+			// A non-successful flag will typically be due to a change in the playback devices properties.
+			if (resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS)
+				goto KillProcessingThread;
 
 			/* Check if thread has been signaled to end */
 			if (i_kill_processing_thread_)
 				goto KillProcessingThread;
 
-			/* A non-successful flag will typically be due to a change in the playback devices properties. */
+			if (numSampleSets > 0)
+			{
+				/* Set additional processing settings */
+				i_valid_bits = pwfx->wBitsPerSample;
+				i_check_for_duplicate_buffers = IS_FALSE;
+
+				/* Make sure processing module has the current format settings */
+				//if (dfxpUniversalSetSignalFormat(cast_handle->dfxp_hdl, pwfx->wBitsPerSample, pwfx->nChannels, pwfx->nSamplesPerSec, i_valid_bits) != OKAY)
+				//	return(NOT_OKAY);
+				if (p_dfx_dsp_->setSignalFormat(pwfx->wBitsPerSample, pwfx->nChannels, pwfx->nSamplesPerSec, i_valid_bits) != OKAY)
+				{
+					// In Release build, initially setSignalFormat() will return NOT OKAY so execution will hit here and throws up message box due to return NOT_OAKY.
+					// However, it doesn't happen in Debug build. Workaround is just comment out return(NOT_OKAY) so it won't throw up message boxes in Release build
+					// and eventually it will start to return OKAY.
+					//return(NOT_OKAY);
+				}
+				
+				
+				// 2016-08-25: Workaround for crashing when playback device has only one channel (mono). For example, a Bleutooth headset is mono. When such
+				// device is selected as the playback device, we do not apply DFX/DSP processing to the buffer for now. Otherwise it will crash.
+				// NOTE: There will also be no sound with a mono playback device until we add code to fill mono playback buffer in sndDevicesDoCapture.cpp, line 279.
+				if (pwfx->nChannels != 1 || (pwfx->nChannels == 1 && !SND_DEVICES_MONO_BUG_DO_NOT_PROCESS))
+				{
+					// Apply DFX processing here using data and format vars above. Format will always be 32 bit floating point.
+				//	if (dfxpUniversalModifySamples(cast_handle->dfxp_hdl, (short int *)fp_buffer, (short int *)fp_buffer, numSampleSets, i_check_for_duplicate_buffers) != OKAY)
+			//			return(NOT_OKAY);
+					p_dfx_dsp_->processAudio((short int *)fp_buffer, (short int *)fp_buffer, numSampleSets, i_check_for_duplicate_buffers);
+				}
+
+				/* Check if thread has been signaled to end */
+				if (i_kill_processing_thread_)
+					goto KillProcessingThread;
+
+				/* A non-successful flag will typically be due to a change in the playback devices properties. */
+				if (resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS)
+					goto KillProcessingThread;
+			}
+
+			/*
+			* Plays processed buffer.
+			* NOTE: This needs to outside of the if block so that unplayed buffers can still be played.
+			*       It is okay to call this even when all buffers have already been played.
+			*/
+			if (!mute_)
+			{
+				if (sndDevicesDoPlayback(hp_sndDevices_, &resultFlag) != OKAY)
+					return(NOT_OKAY);
+			}
+			
+			/* Make sure the playback succeeded */
 			if (resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS)
 				goto KillProcessingThread;
 		}
-
-		/*
-		* Plays processed buffer.
-		* NOTE: This needs to outside of the if block so that unplayed buffers can still be played.
-		*       It is okay to call this even when all buffers have already been played.
-		*/
-		if (!mute_)
+		__except (EXCEPTION_EXECUTE_HANDLER)
 		{
-			if (sndDevicesDoPlayback(hp_sndDevices_, &resultFlag) != OKAY)
-				return(NOT_OKAY);
-		}
-		
-
-		/* Make sure the playback succeeded */
-		if (resultFlag != SND_DEVICES_CAPTURE_PLAYBACK_SUCCESS)
+			/* COM object was invalidated (device disconnected mid-call). Exit gracefully
+			 * instead of crashing. The timer callback will detect the dead thread and
+			 * reinitialize with the updated device list. */
+			OutputDebugStringA("J&Y Audio: SEH exception in processing thread (device likely disconnected)\n");
 			goto KillProcessingThread;
+		}
 	}
 
 KillProcessingThread:
 
-	// Stop capture.
-	if (sndDevicesStartStopCapture(hp_sndDevices_, SND_DEVICES_STOP_CAPTURE) != OKAY)
-		return(NOT_OKAY);
+	// Stop capture — wrap in SEH because COM objects may already be
+	// invalidated when an audio device is disconnected mid-call.
+	__try
+	{
+		sndDevicesStartStopCapture(hp_sndDevices_, SND_DEVICES_STOP_CAPTURE);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		OutputDebugStringA("J&Y Audio: SEH exception stopping capture in KillProcessingThread\n");
+	}
 
 	/* Simply returning from this function stops the thread */
 	return(OKAY);

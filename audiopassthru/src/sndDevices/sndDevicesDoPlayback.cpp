@@ -64,6 +64,13 @@ int PT_DECLSPEC sndDevicesDoPlayback(PT_HANDLE *hp_sndDevices, int *ip_resultFla
 		SND_DEVICES_SET_STATUS_AND_RETURN_OK(SND_DEVICES_NULL_PLAYBACK_CLIENT)
 	}
 
+	// Check stop flag before accessing COM objects — device may have been disconnected.
+	if( cast_handle->stopAudioCaptureAndPlaybackLoop == 1 )
+	{
+		*ip_resultFlag = SND_DEVICES_CAPTURE_FORCED_EXIT;
+		return(OKAY);
+	}
+
 	numPlaybackChannels = cast_handle->wfxPlayback.nChannels;
 
 	// Do upsampling if needed.
@@ -87,6 +94,13 @@ int PT_DECLSPEC sndDevicesDoPlayback(PT_HANDLE *hp_sndDevices, int *ip_resultFla
 				}
 			}
 		}
+	}
+
+	// Re-check stop flag before the first COM call on the playback client.
+	if( cast_handle->stopAudioCaptureAndPlaybackLoop == 1 )
+	{
+		*ip_resultFlag = SND_DEVICES_CAPTURE_FORCED_EXIT;
+		return(OKAY);
 	}
 
 	// This call returns the number of frames still awaiting playback in the playback buffer
