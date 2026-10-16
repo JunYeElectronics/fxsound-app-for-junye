@@ -45,7 +45,7 @@ namespace ProjectInfo
 {
     const char* const  projectName    = "FxSound";
     const char* const  companyName    = "Jun Ye Electronics";
-    const char* const  versionString  = "1.02";
-    const int          versionNumber  = 0x01020000;
+    const char* const  versionString  = "1.03";
+    const int          versionNumber  = 0x01030000;
 }
 #endif
