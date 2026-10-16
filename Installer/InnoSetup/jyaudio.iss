@@ -107,6 +107,10 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 ; from Inno Setup's hidden console, avoiding handle inheritance hang.
 Filename: "powershell.exe"; Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\install_driver.ps1"""; StatusMsg: "Installing audio driver..."; Flags: runhidden waituntilterminated
 
+; Start the app when setup finishes, straight into the system tray:
+; --minimized keeps the main window from opening after install.
+Filename: "{app}\{#MyAppExeName}"; Parameters: "--minimized"; Description: "{cm:LaunchProgram,{#MyAppName}}"; Flags: postinstall nowait runasoriginaluser skipifdoesntexist
+
 [UninstallRun]
 ; Kill running FxSound before uninstalling
 Filename: "taskkill"; Parameters: "/f /im FxSound.exe"; Flags: runhidden skipifdoesntexist

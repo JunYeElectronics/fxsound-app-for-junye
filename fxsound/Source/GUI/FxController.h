@@ -136,8 +136,10 @@ public:
 	bool isAlwaysOnTop();
 	void setAlwaysOnTop(bool always_on_top);
 
-	bool isLaunchOnStartup();
-	void setLaunchOnStartup(bool launch_on_startup);
+    bool isLaunchOnStartup();
+    void setLaunchOnStartup(bool launch_on_startup);
+    void normalizeStartupEntry();
+    bool isStartupSilent() const { return startup_silent_; }
 
     bool isHelpTooltipsHidden();
     void setHelpTooltipsHidden(bool status);
@@ -260,6 +262,8 @@ private:
 	bool minimize_tip_;
 	bool survey_tip_;
 	bool minimized_requested_ = false;
+	bool startup_notice_pending_ = false;
+	bool startup_silent_ = false;
 	int max_user_presets_;
 
 	DWORD session_id_;

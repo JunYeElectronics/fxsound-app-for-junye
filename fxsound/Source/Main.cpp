@@ -129,8 +129,18 @@ public:
         quit();
     }
 
-    void anotherInstanceStarted (const String&) override
+    void anotherInstanceStarted (const String& commandline) override
     {
+        // A second launch that asked for a silent start (login auto-start, installer)
+        // must stay in the tray instead of pulling up the main window.
+        auto arg_list = ArgumentList(File::getSpecialLocation(File::SpecialLocationType::invokedExecutableFile).getFileName(), commandline);
+
+        if (arg_list.containsOption("--minimized"))
+        {
+            FxController::getInstance().logMessage("second instance started with --minimized, keeping the window hidden");
+            return;
+        }
+
         FxController::getInstance().showMainWindow();
     }
 

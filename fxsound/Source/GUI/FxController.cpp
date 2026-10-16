@@ -202,9 +202,126 @@ FxController::~FxController()
 }
 
 
+namespace
+{
+	// ------------------------------------------------------------------------------------------
+	// Auto-start (HKCU\...\Run) helpers.
+	//
+	// Exactly one entry may exist for this app and it must always carry --minimized,
+	// otherwise the main window pops up on every login. Historically two different
+	// value names were written: the installer used "J&Y Audio" (with the flag) and
+	// the settings toggle used the upstream name "FxSound" (without the flag).
+	// ------------------------------------------------------------------------------------------
+	const wchar_t* kRunKeyPath          = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+	const wchar_t* kAutostartName       = L"J&Y Audio";
+	const wchar_t* kLegacyAutostartName = L"FxSound";
+
+	String getRunValue(const wchar_t* name)
+	{
+		String value;
+		HKEY hkey = nullptr;
+
+		if (RegOpenKeyExW(HKEY_CURRENT_USER, kRunKeyPath, 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+		{
+			DWORD type = 0;
+			DWORD size = 0;
+
+			if (RegQueryValueExW(hkey, name, nullptr, &type, nullptr, &size) == ERROR_SUCCESS
+				&& (type == REG_SZ || type == REG_EXPAND_SZ) && size > 0)
+			{
+				std::vector<wchar_t> buffer(size / sizeof(wchar_t) + 1, L'\0');
+
+				if (RegQueryValueExW(hkey, name, nullptr, &type, reinterpret_cast<LPBYTE>(buffer.data()), &size) == ERROR_SUCCESS)
+				{
+					value = String(buffer.data());
+				}
+			}
+
+			RegCloseKey(hkey);
+		}
+
+		return value;
+	}
+
+	void setRunValue(const wchar_t* name, const String& value)
+	{
+		HKEY hkey = nullptr;
+
+		if (RegOpenKeyExW(HKEY_CURRENT_USER, kRunKeyPath, 0, KEY_SET_VALUE, &hkey) == ERROR_SUCCESS)
+		{
+			auto* data = value.toWideCharPointer();
+			RegSetValueExW(hkey, name, 0, REG_SZ, reinterpret_cast<const BYTE*>(data),
+				static_cast<DWORD>((value.length() + 1) * sizeof(wchar_t)));
+			RegCloseKey(hkey);
+		}
+	}
+
+	void deleteRunValue(const wchar_t* name)
+	{
+		HKEY hkey = nullptr;
+
+		if (RegOpenKeyExW(HKEY_CURRENT_USER, kRunKeyPath, 0, KEY_SET_VALUE, &hkey) == ERROR_SUCCESS)
+		{
+			RegDeleteValueW(hkey, name);
+			RegCloseKey(hkey);
+		}
+	}
+
+	String getOurExePath()
+	{
+		wchar_t path[MAX_PATH] = {};
+		GetModuleFileNameW(nullptr, path, MAX_PATH);
+		return String(path);
+	}
+
+	// True only when the entry points at this very executable, so an entry
+	// belonging to another installed application is never touched.
+	bool runValuePointsToUs(const String& value)
+	{
+		return value.isNotEmpty() && value.containsIgnoreCase(getOurExePath());
+	}
+
+	String minimizedCommandLine()
+	{
+		return "\"" + getOurExePath() + "\" --minimized";
+	}
+}
+
+void FxController::normalizeStartupEntry()
+{
+	auto canonical = getRunValue(kAutostartName);
+	auto legacy    = getRunValue(kLegacyAutostartName);
+	auto legacy_ours = runValuePointsToUs(legacy);
+
+	if (canonical.contains("--minimized"))
+	{
+		// Already correct - nothing to do.
+	}
+	else if (canonical.isNotEmpty())
+	{
+		// Our own entry without the flag: this is what opened the main window at login.
+		setRunValue(kAutostartName, minimizedCommandLine());
+	}
+	else if (legacy_ours)
+	{
+		// Migrate the legacy entry, keeping auto-start enabled, single and silent.
+		setRunValue(kAutostartName, minimizedCommandLine());
+	}
+
+	if (legacy_ours)
+	{
+		// Our own duplicate: it started the app a second time, and the second
+		// instance used to pull the main window to the front.
+		deleteRunValue(kLegacyAutostartName);
+	}
+
+	logMessage("startup entry: '" + canonical + "', legacy: '" + legacy + "'");
+}
+
 void FxController::config(const String& commandline)
 {
     auto arg_list = ArgumentList(File::getSpecialLocation(File::SpecialLocationType::invokedExecutableFile).getFileName(), commandline);
+    logMessage("command line: " + (commandline.isEmpty() ? String("(none)") : commandline));
 
     auto preset = arg_list.getValueForOption("--preset").unquoted();
     auto view = arg_list.getValueForOption("--view");
@@ -222,6 +339,10 @@ void FxController::config(const String& commandline)
         minimized_requested_ = true;
         settings_.setBool("run_minimized", true);
     }
+
+    // Whatever wrote the auto-start entry, make sure there is exactly one of ours
+    // and that it always launches with --minimized (silent, tray only).
+    normalizeStartupEntry();
 
     if (preset.isNotEmpty())
     {
@@ -315,6 +436,12 @@ void FxController::config(const String& commandline)
 
 void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray_view, AudioPassthru* audio_passthru)
 {
+	// Started with --minimized (login auto-start / after install): stay silent while
+	// the app comes up. The toasts fired from here - preset applied, release note,
+	// "in system tray" hint - are the reason the desktop was never quiet at boot.
+	// Re-enabled at the end of this function, so later events still notify normally.
+	startup_silent_ = minimized_requested_;
+
 	if (!isTimerRunning())
 	{
 		main_window_ = main_window;
@@ -363,7 +490,16 @@ void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray
         {
 			RegDeleteTree(HKEY_CURRENT_USER, L"Software\\DFX");
 
-            FxModel::getModel().pushMessage(" ", { TRANS("Click here to see what's new on this version!"), "https://github.com/JunYeElectronics/fxsound-app-for-junye/releases" });			
+            if (minimized_requested_)
+            {
+                // Silent start (login / installer): remember the notice and show it
+                // with the window instead of popping a toast over the desktop at boot.
+                startup_notice_pending_ = true;
+            }
+            else
+            {
+                FxModel::getModel().pushMessage(" ", { TRANS("Click here to see what's new on this version!"), "https://github.com/JunYeElectronics/fxsound-app-for-junye/releases" });
+            }
             settings_.setString("version", app_version);
 			if (!prev_version.startsWith("1.1.2") && app_version.startsWith("1.1.2"))
 			{
@@ -395,7 +531,14 @@ void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray
 		}
 
         survey_tip_ = !settings_.getBool("survey_displayed");
-        
+
+        if (minimized_requested_)
+        {
+            // Started with --minimized: stay in the tray. No "already in system tray"
+            // toast and no 2 second stall before the tray icon becomes usable.
+            minimize_tip_ = false;
+        }
+
         if (!settings_.getBool("run_minimized"))
         {
             showMainWindow();
@@ -408,6 +551,8 @@ void FxController::init(FxMainWindow* main_window, FxSystemTrayView* system_tray
 		auto power = FxModel::getModel().getPowerState();
 		main_window_->setIcon(power, false);
 		system_tray_view_->setStatus(power, false);
+
+		startup_silent_ = false;
 	}
 }
 
@@ -497,6 +642,13 @@ void FxController::showMainWindow()
 	{
 		settings_.setBool("run_minimized", false);
 		main_window_->show();
+
+		if (startup_notice_pending_)
+		{
+			// Deferred from a silent start - shown now that the window is open.
+			startup_notice_pending_ = false;
+			FxModel::getModel().pushMessage(" ", { TRANS("Click here to see what's new on this version!"), "https://github.com/JunYeElectronics/fxsound-app-for-junye/releases" });
+		}
 
 		auto power = FxModel::getModel().getPowerState();
 		main_window_->setIcon(power, audio_process_on_);
@@ -2070,33 +2222,28 @@ void FxController::setAlwaysOnTop(bool always_on_top)
 
 bool FxController::isLaunchOnStartup()
 {
-	HKEY hkey;
-	RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_QUERY_VALUE, &hkey);
-	DWORD type;
-	DWORD size = 0;
-	RegQueryValueEx(hkey, L"FxSound", NULL, &type, NULL, &size);
-	RegCloseKey(hkey);
-
-	return size > 0;
+	return getRunValue(kAutostartName).isNotEmpty()
+		|| runValuePointsToUs(getRunValue(kLegacyAutostartName));
 }
 
 void FxController::setLaunchOnStartup(bool launch_on_startup)
 {
-	wchar_t szPath[MAX_PATH];
-	GetModuleFileName(NULL, szPath, MAX_PATH);
-	HKEY hkey;
-	RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_SET_VALUE, &hkey);
-
 	if (launch_on_startup)
 	{
-		RegSetValueEx(hkey, L"FxSound", 0, REG_SZ, (BYTE*)szPath, sizeof(szPath));
+		// Always with --minimized: auto-start must never open the main window.
+		setRunValue(kAutostartName, minimizedCommandLine());
 	}
 	else
 	{
-		RegDeleteValue(hkey, L"FxSound");
+		deleteRunValue(kAutostartName);
 	}
 
-	RegCloseKey(hkey);
+	// Drop our own legacy duplicate, but leave an entry belonging to a
+	// different application alone.
+	if (runValuePointsToUs(getRunValue(kLegacyAutostartName)))
+	{
+		deleteRunValue(kLegacyAutostartName);
+	}
 }
 
 void FxController::registerHotkeys()
