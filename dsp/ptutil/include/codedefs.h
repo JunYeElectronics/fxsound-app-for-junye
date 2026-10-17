@@ -119,17 +119,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	#endif //UNICODE
 
 #elif !defined( __ANDROID__ ) //NOT DEBUG && WIN32
+	/* Release builds: a DSP error must never put a modal box on the customer's
+	   screen (the old ptReleaseNotOkay() popped one unconditionally). Just write
+	   it to the debugger output - DebugView or a debugger will show it - and
+	   return the same error code as before. */
 	#ifdef UNICODE
 		static int ptReleaseNotOkay(wchar_t *wcp_file, wchar_t *wcp_line)
 		{
-			MessageBoxW(NULL, wcp_file, wcp_line, MB_OK);
+			OutputDebugStringW(L"J&Y Audio: DSP error (NOT_OKAY) at ");
+			OutputDebugStringW(wcp_file);
+			OutputDebugStringW(L" line ");
+			OutputDebugStringW(wcp_line);
+			OutputDebugStringW(L"\n");
 			return(NOT_OKAY_NO_BREAK);
 		}
 		#define NOT_OKAY ptReleaseNotOkay(PT_WFILE, PT_LINE_STRING)
 	#else
 		static int ptReleaseNotOkay(char *cp_file, char *cp_line)
 		{
-			MessageBoxA(NULL, cp_file, cp_line, MB_OK);
+			OutputDebugStringA("J&Y Audio: DSP error (NOT_OKAY) at ");
+			OutputDebugStringA(cp_file);
+			OutputDebugStringA(" line ");
+			OutputDebugStringA(cp_line);
+			OutputDebugStringA("\n");
 			return(NOT_OKAY_NO_BREAK);
 		}
 		#define NOT_OKAY ptReleaseNotOkay( __FILE__, PT_LINE_STRING_CHAR)
